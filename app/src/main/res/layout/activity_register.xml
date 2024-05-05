@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="80dp"
+        android:text="Daftar"
+        android:textColor="@color/black"
+        android:textSize="40sp"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_nomor_hp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_register"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
+        android:background="@drawable/bg_et_login"
+        android:hint="Nomor HP"
+        android:textColor="@color/black"
+        />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_email"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_nomor_hp"
+        android:background="@drawable/bg_et_login"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:hint="Email"
+        android:textColor="@color/black"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_kata_sandi"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_email"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
+        android:layout_marginHorizontal="30dp"
+        android:background="@drawable/bg_et_login"
+        android:hint="Kata Sandi"
+        android:textColor="@color/black"/>
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_konfirmasi_kata_sandi"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_kata_sandi"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="20dp"
+        android:background="@drawable/bg_et_login"
+        android:hint="Konfirmasi Kata Sandi"
+        android:textColor="@color/black"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_daftar"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_konfirmasi_kata_sandi"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_bt_login"
+        android:text="Daftar"
+        android:textColor="@color/white"
+        />
+
+    <TextView
+        android:id="@+id/txt_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@+id/btn_daftar"
+        app:layout_constraintTop_toBottomOf="@+id/btn_daftar"
+        android:layout_marginTop="15dp"
+        android:textSize="17sp"
+        android:textColor="@color/black"
+        android:text="Sudah Punya Akun?"/>
+
+    <TextView
+        android:id="@+id/txt_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@id/txt_ask"
+        app:layout_constraintTop_toBottomOf="@id/btn_daftar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:textSize="18sp"
+        android:text="Login"
+        android:textColor="#2199a0"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
