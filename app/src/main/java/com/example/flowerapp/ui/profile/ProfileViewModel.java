@@ -1,16 +1,16 @@
-package com.example.flowerapp.ui.dashboard;
+package com.example.flowerapp.ui.profile;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class ProfileViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public ProfileViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Explore fragment");
+        mText.setValue("This is Profile fragment");
     }
 
     public LiveData<String> getText() {

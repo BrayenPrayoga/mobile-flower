@@ -1,16 +1,16 @@
-package com.example.flowerapp.ui.notifications;
+package com.example.flowerapp.ui.explore;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class NotificationsViewModel extends ViewModel {
+public class ExploreViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public NotificationsViewModel() {
+    public ExploreViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Profile fragment");
+        mText.setValue("This is Explore fragment");
     }
 
     public LiveData<String> getText() {
