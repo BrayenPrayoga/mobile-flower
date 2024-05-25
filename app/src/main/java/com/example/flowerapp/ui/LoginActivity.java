@@ -1,4 +1,4 @@
-package com.example.flowerapp;
+package com.example.flowerapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.flowerapp.MainActivity;
+import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityLoginBinding;
 import com.example.flowerapp.model.ApiService;
-import com.example.flowerapp.model.GetLogin;
+import com.example.flowerapp.model.response.Login;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
@@ -25,6 +27,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class LoginActivity extends AppCompatActivity {
+    private static String TAG = "LoginActivity";
     private ActivityLoginBinding binding;
     private ApiService apiService;
     private Retrofit retrofit;
@@ -47,7 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login(binding.etEmail.toString(), binding.etPassword.toString());
+                if(binding.etEmail.getText().toString().isEmpty()){
+                    Toastie.topWarning(LoginActivity.this, "Email Tidak Boleh Kosong", Toast.LENGTH_LONG).show();
+                } else if (binding.etPassword.getText().toString().isEmpty()) {
+                    Toastie.topWarning(LoginActivity.this, "Password Tidak Boleh Kosong", Toast.LENGTH_LONG).show();
+                }else{
+                    login(binding.etEmail.getText().toString(), binding.etPassword.getText().toString());
+                }
+
             }
         });
 
@@ -55,22 +65,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-                finish();
             }
         });
     }
 
     public void login(String email, String password){
-        Call<GetLogin> call = apiService.login(email, password);
-        Log.d("Login Activity", "login: " + email);
-        Log.d("Login Activity", "login: " + email);
-        call.enqueue(new Callback<GetLogin>() {
+        Call<Login> call = apiService.login(email, password);
+        Log.d(TAG, "email: " + email);
+        Log.d(TAG, "passowrd: " + password);
+        call.enqueue(new Callback<Login>() {
             @Override
-            public void onResponse(Call<GetLogin> call, Response<GetLogin> response) {
-
+            public void onResponse(Call<Login> call, Response<Login> response) {
+                Login loginResponse = response.body();
                 if(response.isSuccessful()){
 
-                    GetLogin loginResponse = response.body();
                     if(loginResponse != null && loginResponse.isSuccess()){
                         Toastie.topSuccess(LoginActivity.this, "Login Berhasil", Toast.LENGTH_LONG).show();
                         String token = loginResponse.getToken();
@@ -87,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<GetLogin> call, Throwable t) {
+            public void onFailure(Call<Login> call, Throwable t) {
                 Toastie.topWarning(LoginActivity.this, "Error," + t.getMessage().toString(), Toast.LENGTH_LONG).show();
                 Log.d("LoginActivity", "onFailure: "+ t.getMessage());
             }

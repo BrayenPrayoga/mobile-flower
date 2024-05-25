@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity"
+    tools:context=".ui.RegisterActivity"
     android:background="@color/white">
 
     <TextView
@@ -21,7 +21,7 @@
         android:textSize="40sp"/>
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/et_nomor_hp"
+        android:id="@+id/et_nama"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -31,7 +31,7 @@
         android:layout_marginTop="20dp"
         android:paddingHorizontal="20dp"
         android:background="@drawable/bg_et_login"
-        android:hint="Nomor HP"
+        android:hint="Nama"
         android:textColor="@color/black"
         />
 
@@ -41,7 +41,7 @@
         android:layout_height="50dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_nomor_hp"
+        app:layout_constraintTop_toBottomOf="@+id/et_nama"
         android:background="@drawable/bg_et_login"
         android:layout_marginTop="20dp"
         android:paddingHorizontal="20dp"
