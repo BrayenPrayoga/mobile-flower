@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.flowerapp.MainActivity;
 import com.example.flowerapp.R;
@@ -18,6 +19,7 @@ import com.example.flowerapp.databinding.ActivityLoginBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.response.Login;
 import com.example.flowerapp.model.RClient;
+import com.example.flowerapp.util.LoadingDialogFragment;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
 
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private ApiService apiService;
     private Retrofit retrofit;
+    private LoadingDialogFragment loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
+        loadingDialog = new LoadingDialogFragment();
         EdgeToEdge.enable(this);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -70,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(String email, String password){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        loadingDialog.show(fragmentManager, "loading");
         Call<Login> call = apiService.login(email, password);
         Log.d(TAG, "email: " + email);
         Log.d(TAG, "passowrd: " + password);
@@ -85,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         // Simpan token ke SharedPreferences
                         SharedPrefManager.getInstance(LoginActivity.this).saveToken(token);
+                        loadingDialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -96,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
+                loadingDialog.dismiss();
                 Toastie.topWarning(LoginActivity.this, "Error," + t.getMessage().toString(), Toast.LENGTH_LONG).show();
                 Log.d("LoginActivity", "onFailure: "+ t.getMessage());
             }

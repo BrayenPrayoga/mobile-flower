@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityRegisterBinding;
@@ -18,6 +19,7 @@ import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.User;
 import com.example.flowerapp.model.response.Login;
 import com.example.flowerapp.model.response.RegistUser;
+import com.example.flowerapp.util.LoadingDialogFragment;
 import com.mrntlu.toastie.Toastie;
 
 import retrofit2.Call;
@@ -30,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
     private Retrofit retrofit;
     private ApiService apiService;
+    private LoadingDialogFragment loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
+        loadingDialog = new LoadingDialogFragment();
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -74,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(String nama, String email, String password){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        loadingDialog.show(fragmentManager, "loading");
         //role harus selalu 1, jika role = 2 adalah admin
         String role = "1";
         Call<RegistUser> call = apiService.registUser(nama, email, password, role);
@@ -84,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
                 User dataUser = responseBody.getData();
                 Toastie.topSuccess(RegisterActivity.this, "User " + dataUser.getName()
                         + " berhasil didaftarkan!", Toast.LENGTH_LONG).show();
+                loadingDialog.dismiss();
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -91,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RegistUser> call, Throwable t) {
+                loadingDialog.dismiss();
                 Toastie.topWarning(RegisterActivity.this, "Error," + t.getMessage().toString(), Toast.LENGTH_LONG).show();
             }
         });

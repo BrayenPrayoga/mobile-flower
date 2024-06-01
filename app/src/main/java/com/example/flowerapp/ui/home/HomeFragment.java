@@ -51,34 +51,7 @@ public class HomeFragment extends Fragment {
         apiService = RClient.getRetrofitInstanceWithAuth(token).create(ApiService.class);
 
         Log.d("HomeFragment", "token: "+ token);
-        List<Bean> packs = new ArrayList<>();
-        apiService.getBanner().enqueue(new Callback<com.example.flowerapp.model.response.Banner>() {
-            @Override
-            public void onResponse(Call<com.example.flowerapp.model.response.Banner> call, Response<com.example.flowerapp.model.response.Banner> response) {
-                List<BannerData> data = response.body().getData();
-                Log.d("HomeFragment", "banyakData: "+ data.size());
-                for (BannerData bannerData : data)
-                {
-                    Log.d(TAG, "url gambar: " + bannerData.getGambar());
-                    Log.d(TAG, "url penuh: " + RClient.getBaseUrl() + bannerData.getGambar());
-                    packs.add(new Bean("http://192.168.1.6:8000" + bannerData.getGambar()));
-                };
-
-                binding.banner.setBannerData(packs);
-            }
-
-            @Override
-            public void onFailure(Call<com.example.flowerapp.model.response.Banner> call, Throwable t) {
-
-            }
-        });
-
-        binding.banner.setOnItemClickListener(new Banner.OnItemClickListener() {
-            @Override
-            public void onItemClick(int i, Object o) {
-                Toast.makeText(getContext(), "position = " + i, Toast.LENGTH_SHORT).show();
-            }
-        });
+        getDataBanner();
 
         binding.banner.setOnItemBindListener(new Banner.OnItemBindListener<Bean>(){
             @Override
@@ -88,6 +61,13 @@ public class HomeFragment extends Fragment {
                         .placeholder(androidx.transition.R.drawable.abc_text_cursor_material)
                         .error(androidx.transition.R.drawable.notification_tile_bg)
                         .into(imageView);
+            }
+        });
+
+        binding.banner.setOnItemClickListener(new Banner.OnItemClickListener() {
+            @Override
+            public void onItemClick(int i, Object o) {
+                Toast.makeText(getContext(), "position = " + i, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -102,6 +82,29 @@ public class HomeFragment extends Fragment {
 
         return root;
     }
+
+    public void getDataBanner(){
+        List<Bean> packs = new ArrayList<>();
+        apiService.getBanner().enqueue(new Callback<com.example.flowerapp.model.response.Banner>() {
+            @Override
+            public void onResponse(Call<com.example.flowerapp.model.response.Banner> call, Response<com.example.flowerapp.model.response.Banner> response) {
+                List<BannerData> data = response.body().getData();
+                for (BannerData bannerData : data)
+                {
+                    packs.add(new Bean("http://192.168.1.5:8000" + bannerData.getGambar()));
+                };
+
+                binding.banner.setBannerData(packs);
+            }
+
+            @Override
+            public void onFailure(Call<com.example.flowerapp.model.response.Banner> call, Throwable t) {
+
+            }
+        });
+    }
+
+
 
     private class Bean {
         String url;
