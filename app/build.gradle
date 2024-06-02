@@ -50,8 +50,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 //    implementation 'com.ethanhua:skeleton:1.1.2'
-//    implementation 'io.supercharge:shimmerlayout:2.1.0'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     implementation 'com.github.MrNtlu:Toastie:1.1.0'
+
+//    implementation 'com.github.arimorty:floatingsearchview:2.1.1'
+//    implementation 'com.github.renaudcerrato:FloatingSearchView:1.0.1'
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 }

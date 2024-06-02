@@ -3,6 +3,7 @@ package com.example.flowerapp.model;
 import com.example.flowerapp.model.response.GetBanner;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Login;
+import com.example.flowerapp.model.response.GetProduk;
 import com.example.flowerapp.model.response.RegistUser;
 
 import retrofit2.Call;
@@ -33,5 +34,8 @@ public interface ApiService {
 
     @GET("kategori/get-kategori")
     Call<GetKategori> getKategori();
+
+    @GET("produk/get-produk")
+    Call<GetProduk> getProduk();
 
 }

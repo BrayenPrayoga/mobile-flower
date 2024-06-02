@@ -40,7 +40,6 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
@@ -88,16 +87,20 @@ public class HomeFragment extends Fragment {
             @Override
             public void onResponse(Call<GetBanner> call, Response<GetBanner> response) {
                 List<Banner> data = response.body().getData();
-                for (Banner bannerData : data)
-                {
-                    packs.add(new Bean("http://192.168.1.6:8000" + bannerData.getGambar()));
-                };
+                if(data.size() > 0 && response.body().getData() != null){
+                    for (Banner bannerData : data)
+                    {
+                        packs.add(new Bean("http://192.168.1.6:8000" + bannerData.getGambar()));
+                    };
+                    binding.banner.setBannerData(packs);
+                }else {
 
-                binding.banner.setBannerData(packs);
+                }
             }
 
             @Override
             public void onFailure(Call<GetBanner> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
 
             }
         });

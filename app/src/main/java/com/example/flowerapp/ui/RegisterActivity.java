@@ -16,7 +16,7 @@ import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityRegisterBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
-import com.example.flowerapp.model.data.User;
+import com.example.flowerapp.model.User;
 import com.example.flowerapp.model.response.RegistUser;
 import com.example.flowerapp.util.LoadingDialogFragment;
 import com.mrntlu.toastie.Toastie;

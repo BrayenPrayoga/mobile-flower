@@ -1,5 +1,7 @@
 package com.example.flowerapp.model.data;
 
+import com.example.flowerapp.model.User;
+
 
 public class Login {
     private boolean success;
