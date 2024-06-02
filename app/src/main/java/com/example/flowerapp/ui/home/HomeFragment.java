@@ -7,24 +7,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.FragmentHomeBinding;
 import com.example.flowerapp.model.ApiService;
-import com.example.flowerapp.model.BannerData;
+import com.example.flowerapp.model.data.Banner;
 import com.example.flowerapp.model.RClient;
+import com.example.flowerapp.model.response.GetBanner;
+import com.example.flowerapp.model.response.GetKategori;
+import com.example.flowerapp.model.data.Kategori;
 import com.example.flowerapp.util.SharedPrefManager;
-import com.sunzn.banner.library.Banner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +50,9 @@ public class HomeFragment extends Fragment {
 
         Log.d("HomeFragment", "token: "+ token);
         getDataBanner();
+        getDataProduk();
 
-        binding.banner.setOnItemBindListener(new Banner.OnItemBindListener<Bean>(){
+        binding.banner.setOnItemBindListener(new com.sunzn.banner.library.Banner.OnItemBindListener<Bean>(){
             @Override
             public void onItemBind(int i, Bean bean, @NonNull ImageView imageView) {
                 Glide.with(HomeFragment.this)
@@ -64,7 +63,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        binding.banner.setOnItemClickListener(new Banner.OnItemClickListener() {
+        binding.banner.setOnItemClickListener(new com.sunzn.banner.library.Banner.OnItemClickListener() {
             @Override
             public void onItemClick(int i, Object o) {
                 Toast.makeText(getContext(), "position = " + i, Toast.LENGTH_SHORT).show();
@@ -85,21 +84,46 @@ public class HomeFragment extends Fragment {
 
     public void getDataBanner(){
         List<Bean> packs = new ArrayList<>();
-        apiService.getBanner().enqueue(new Callback<com.example.flowerapp.model.response.Banner>() {
+        apiService.getBanner().enqueue(new Callback<GetBanner>() {
             @Override
-            public void onResponse(Call<com.example.flowerapp.model.response.Banner> call, Response<com.example.flowerapp.model.response.Banner> response) {
-                List<BannerData> data = response.body().getData();
-                for (BannerData bannerData : data)
+            public void onResponse(Call<GetBanner> call, Response<GetBanner> response) {
+                List<Banner> data = response.body().getData();
+                for (Banner bannerData : data)
                 {
-                    packs.add(new Bean("http://192.168.1.5:8000" + bannerData.getGambar()));
+                    packs.add(new Bean("http://192.168.1.6:8000" + bannerData.getGambar()));
                 };
 
                 binding.banner.setBannerData(packs);
             }
 
             @Override
-            public void onFailure(Call<com.example.flowerapp.model.response.Banner> call, Throwable t) {
+            public void onFailure(Call<GetBanner> call, Throwable t) {
 
+            }
+        });
+    }
+
+    public void getDataProduk(){
+        apiService.getKategori().enqueue(new Callback<GetKategori>() {
+            @Override
+            public void onResponse(Call<GetKategori> call, Response<GetKategori> response) {
+                Log.d(TAG, "getProduk: " + response.body());
+                Log.d(TAG, "sucees: " + response.isSuccessful());
+
+                List<Kategori> listKategori = response.body().getData();
+                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                binding.rvListKategori.setLayoutManager(linearLayoutManager);
+                KategoriAdapter kategoriAdapter = new KategoriAdapter(getContext(), listKategori);
+                binding.rvListKategori.setAdapter(kategoriAdapter);
+
+                binding.shimmerViewContainer.setVisibility(View.GONE);
+                binding.shimmerViewContainer.stopShimmer();
+
+            }
+
+            @Override
+            public void onFailure(Call<GetKategori> call, Throwable t) {
+                Log.d(TAG, "onFailure: " + t.getMessage());
             }
         });
     }

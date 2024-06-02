@@ -1,41 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="200dp"
+    android:layout_height="270dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="20dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:background="@color/white"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="8dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="200dp"
-        android:layout_height="270dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp">
 
-        <RelativeLayout
+        <ImageView
+            android:id="@+id/iv_product"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="150dp"
+            android:src="@android:drawable/ic_dialog_info"/>
 
-            <ImageView
-                android:id="@+id/iv_product"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:src="@android:drawable/ic_dialog_info"/>
+        <TextView
+            android:id="@+id/tv_stok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"
+            android:background="@drawable/bg_stok"/>
 
-            <TextView
-                android:id="@+id/tv_nama_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="nama"
-                android:textColor="@color/black"
-                android:layout_below="@+id/iv_product"
-                android:layout_margin="10dp"/>
+        <TextView
+            android:id="@+id/tv_nama_product"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="nama"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:layout_below="@+id/iv_product"
+            android:layout_margin="10dp"/>
 
-            <TextView
-                android:id="@+id/tv_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:text="10000"
-                android:textColor="@color/black"
-                android:layout_margin="10dp"/>
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_nama_product"
+            android:textSize="14sp"
+            android:layout_margin="10dp"
+            android:textColor="@color/black"/>
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="10000"
+            android:textSize="12sp"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

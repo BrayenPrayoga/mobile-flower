@@ -1,4 +1,4 @@
-package com.example.flowerapp.model;
+package com.example.flowerapp.model.data;
 
 public class User {
     private int id;

@@ -1,6 +1,4 @@
-package com.example.flowerapp.model.response;
-
-import com.example.flowerapp.model.User;
+package com.example.flowerapp.model.data;
 
 
 public class Login {

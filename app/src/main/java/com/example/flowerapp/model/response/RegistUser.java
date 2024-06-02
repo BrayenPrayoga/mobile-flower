@@ -1,6 +1,7 @@
 package com.example.flowerapp.model.response;
 
-import com.example.flowerapp.model.User;
+import com.example.flowerapp.model.data.User;
+import com.example.flowerapp.model.data.Meta;
 
 /**
  * Created by Ardian Iqbal Yusmartito on 25/05/24

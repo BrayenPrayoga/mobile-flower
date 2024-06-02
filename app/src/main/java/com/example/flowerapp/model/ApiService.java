@@ -1,7 +1,8 @@
 package com.example.flowerapp.model;
 
-import com.example.flowerapp.model.response.Banner;
-import com.example.flowerapp.model.response.Login;
+import com.example.flowerapp.model.response.GetBanner;
+import com.example.flowerapp.model.response.GetKategori;
+import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.response.RegistUser;
 
 import retrofit2.Call;
@@ -28,6 +29,9 @@ public interface ApiService {
     );
 
     @GET("master-banner/get-banner")
-    Call<Banner> getBanner();
+    Call<GetBanner> getBanner();
+
+    @GET("kategori/get-kategori")
+    Call<GetKategori> getKategori();
 
 }

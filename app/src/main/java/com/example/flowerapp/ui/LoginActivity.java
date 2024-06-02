@@ -17,7 +17,7 @@ import com.example.flowerapp.MainActivity;
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityLoginBinding;
 import com.example.flowerapp.model.ApiService;
-import com.example.flowerapp.model.response.Login;
+import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.util.LoadingDialogFragment;
 import com.example.flowerapp.util.SharedPrefManager;
@@ -97,16 +97,18 @@ public class LoginActivity extends AppCompatActivity {
                         finish();
                     }else{
                         Toastie.topWarning(LoginActivity.this, "Login Gagal, Password atau email salah", Toast.LENGTH_LONG).show();
+                        loadingDialog.dismiss();
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
-                loadingDialog.dismiss();
                 Toastie.topWarning(LoginActivity.this, "Error," + t.getMessage().toString(), Toast.LENGTH_LONG).show();
                 Log.d("LoginActivity", "onFailure: "+ t.getMessage());
+                loadingDialog.dismiss();
             }
+
         });
     }
 }

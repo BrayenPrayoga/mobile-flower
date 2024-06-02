@@ -1,13 +1,14 @@
 package com.example.flowerapp.model.response;
 
 
-import com.example.flowerapp.model.BannerData;
+import com.example.flowerapp.model.data.Banner;
+import com.example.flowerapp.model.data.Meta;
 
 import java.util.List;
 
-public class Banner {
+public class GetBanner {
     private Meta meta;
-    private List<BannerData> data;
+    private List<Banner> data;
 
     public Meta getMeta() {
         return meta;
@@ -17,11 +18,11 @@ public class Banner {
         this.meta = meta;
     }
 
-    public List<BannerData> getData() {
+    public List<Banner> getData() {
         return data;
     }
 
-    public void setData(List<BannerData> data) {
+    public void setData(List<Banner> data) {
         this.data = data;
     }
 }

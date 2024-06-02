@@ -6,16 +6,9 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by Ardian Iqbal Yusmartito on 22/05/24
- * Github : https://github.com/ALU-syntax
- * Twitter : https://twitter.com/mengkerebe
- * Instagram : https://www.instagram.com/ardian_iqbal_
- * LinkedIn : https://www.linkedin.com/in/ardianiqbal
- */
 public class RClient {
     private static Retrofit retrofit;
-    private static  String BASE_URL = "http://192.168.1.5:8000/api/";
+    private static  String BASE_URL = "http://192.168.1.6:8000/api/";
 
     public static String getBaseUrl() {
         return BASE_URL;

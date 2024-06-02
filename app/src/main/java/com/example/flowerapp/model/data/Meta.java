@@ -1,4 +1,4 @@
-package com.example.flowerapp.model.response;
+package com.example.flowerapp.model.data;
 
 public class Meta {
     private int code;

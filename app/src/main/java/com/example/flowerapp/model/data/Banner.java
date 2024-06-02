@@ -1,6 +1,6 @@
-package com.example.flowerapp.model;
+package com.example.flowerapp.model.data;
 
-public class BannerData {
+public class Banner {
     private int id;
     private String keterangan;
     private String gambar;
