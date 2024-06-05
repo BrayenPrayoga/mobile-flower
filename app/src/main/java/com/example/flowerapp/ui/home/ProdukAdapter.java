@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.flowerapp.R;
+import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.data.Produk;
 import com.example.flowerapp.util.ConvertCurrency;
 
@@ -46,7 +47,7 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
         holder.tvStok.setText("Stok: " + stok);
 
         Glide.with(context)
-                .load("http://192.168.1.6:8000" + produk.getGambar())
+                .load(RClient.getBaseUrl() + produk.getGambar())
                 .placeholder(androidx.transition.R.drawable.abc_text_cursor_material)
                 .error(androidx.transition.R.drawable.notification_tile_bg)
                 .into(holder.ivProduk);

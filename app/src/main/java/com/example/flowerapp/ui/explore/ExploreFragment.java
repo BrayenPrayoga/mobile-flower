@@ -77,7 +77,7 @@ public class ExploreFragment extends Fragment implements MaterialSearchBar.OnSea
             public void onResponse(Call<GetProduk> call, Response<GetProduk> response) {
                 List<Produk> produk = response.body().getData();
                 if(response.isSuccessful() && response.body() != null && produk.size() > 0){
-                    binding.tvProdukKosong.setVisibility(View.GONE);
+//                    binding.tvProdukKosong.setVisibility(View.GONE);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
                     binding.rvDataExplore.setLayoutManager(gridLayoutManager);
                     exploreProdukAdapter = new ExploreProdukAdapter(produk, getContext());

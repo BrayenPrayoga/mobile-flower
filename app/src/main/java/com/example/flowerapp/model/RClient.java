@@ -10,8 +10,9 @@ public class RClient {
     private static Retrofit retrofit;
     private static  String BASE_URL = "http://192.168.1.6:8000/api/";
 
+    public static String BASE_URL_IMAGE = "http://192.168.1.6:8000/public/";
     public static String getBaseUrl() {
-        return BASE_URL;
+        return BASE_URL_IMAGE;
     }
 
     public static Retrofit getRetrofitInstance() {

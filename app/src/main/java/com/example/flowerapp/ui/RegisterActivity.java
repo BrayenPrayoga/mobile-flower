@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityRegisterBinding;
 import com.example.flowerapp.model.ApiService;
@@ -33,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private ApiService apiService;
     private LoadingDialogFragment loadingDialog;
+    private LottieProgressDialog lottieProgressDialog;
 
     private static final String TAG = "RegisterActivity";
 
@@ -44,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
         loadingDialog = new LoadingDialogFragment();
+        lottieProgressDialog = new LottieProgressDialog(this,
+                false, null, null, null,
+                null, LottieProgressDialog.SAMPLE_6, null, null);
         EdgeToEdge.enable(this);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -81,7 +86,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void register(String nama, String email, String password){
         FragmentManager fragmentManager = getSupportFragmentManager();
-        loadingDialog.show(fragmentManager, "loading");
+//        loadingDialog.show(fragmentManager, "loading");
+        lottieProgressDialog.show();
         //role harus selalu 1, jika role = 2 adalah admin
         String role = "1";
         Call<RegistUser> call = apiService.registUser(nama, email, password, role);
@@ -96,7 +102,8 @@ public class RegisterActivity extends AppCompatActivity {
                 User dataUser = responseBody.getData();
                 Toastie.topSuccess(RegisterActivity.this, "User " + dataUser.getName()
                         + " berhasil didaftarkan!", Toast.LENGTH_LONG).show();
-                loadingDialog.dismiss();
+//                loadingDialog.dismiss();
+                lottieProgressDialog.dismiss();
                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
@@ -104,7 +111,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RegistUser> call, Throwable t) {
-                loadingDialog.dismiss();
+//                loadingDialog.dismiss();
+                lottieProgressDialog.dismiss();
                 Toastie.topWarning(RegisterActivity.this, "Error," + t.getMessage().toString(), Toast.LENGTH_LONG).show();
             }
         });

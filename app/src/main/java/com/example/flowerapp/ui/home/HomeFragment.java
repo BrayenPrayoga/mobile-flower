@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
                 if(data.size() > 0 && response.body().getData() != null){
                     for (Banner bannerData : data)
                     {
-                        packs.add(new Bean("http://192.168.1.6:8000" + bannerData.getGambar()));
+                        packs.add(new Bean(RClient.getBaseUrl() + bannerData.getGambar()));
                     };
                     binding.banner.setBannerData(packs);
                 }else {
@@ -159,8 +159,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        binding.shimmerViewContainer.setVisibility(View.VISIBLE);
-        binding.shimmerViewContainer.startShimmer();
         binding.banner.setPlaying(true);
     }
 
