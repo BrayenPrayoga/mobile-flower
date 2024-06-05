@@ -2,6 +2,7 @@ package com.example.flowerapp.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private ApiService apiService;
     private LoadingDialogFragment loadingDialog;
+
+    private static final String TAG = "RegisterActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +89,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<RegistUser> call, Response<RegistUser> response) {
                 RegistUser responseBody = response.body();
+                Log.d(TAG, "onResponse: " + response.message());
+                Log.d(TAG, "onResponse: " + response.code());
+                Log.d(TAG, "onResponse: " + response.isSuccessful());
+                Log.d("RegisterActivity", "onResponse: " + responseBody);
                 User dataUser = responseBody.getData();
                 Toastie.topSuccess(RegisterActivity.this, "User " + dataUser.getName()
                         + " berhasil didaftarkan!", Toast.LENGTH_LONG).show();

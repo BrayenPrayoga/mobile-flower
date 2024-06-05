@@ -18,6 +18,7 @@ import com.example.flowerapp.MainActivity;
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityLoginBinding;
 import com.example.flowerapp.model.ApiService;
+import com.example.flowerapp.model.User;
 import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.util.LoadingDialogFragment;
@@ -90,14 +91,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Login> call, Response<Login> response) {
                 Login loginResponse = response.body();
+                User user = loginResponse.getUser();
+                Log.d(TAG, "onResponse: " + loginResponse);
                 if(response.isSuccessful()){
 
                     if(loginResponse != null && loginResponse.isSuccess()){
                         Toastie.topSuccess(LoginActivity.this, "Login Berhasil", Toast.LENGTH_LONG).show();
-                        String token = loginResponse.getToken();
 
+                        String token = loginResponse.getToken();
                         // Simpan token ke SharedPreferences
                         SharedPrefManager.getInstance(LoginActivity.this).saveToken(token);
+
+                        // simpan data user ke sharedpreferencecs
+                        SharedPrefManager.getInstance(LoginActivity.this).saveUser(user);
 //                        loadingDialog.dismiss();
                         lottieProgressDialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
