@@ -23,6 +23,7 @@ import com.example.flowerapp.model.response.GetBanner;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Kategori;
 import com.example.flowerapp.util.SharedPrefManager;
+import com.mrntlu.toastie.Toastie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,14 +115,17 @@ public class HomeFragment extends Fragment {
                 Log.d(TAG, "sucees: " + response.isSuccessful());
 
                 List<Kategori> listKategori = response.body().getData();
-                LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                binding.rvListKategori.setLayoutManager(linearLayoutManager);
-                KategoriAdapter kategoriAdapter = new KategoriAdapter(getContext(), listKategori);
-                binding.rvListKategori.setAdapter(kategoriAdapter);
+                if(!listKategori.isEmpty()){
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+                    binding.rvListKategori.setLayoutManager(linearLayoutManager);
+                    KategoriAdapter kategoriAdapter = new KategoriAdapter(getContext(), listKategori);
+                    binding.rvListKategori.setAdapter(kategoriAdapter);
+                }else{
+                    Toastie.topWarning(getContext(), "Produk Kosong", Toast.LENGTH_LONG).show();
+                }
 
                 binding.shimmerViewContainer.setVisibility(View.GONE);
                 binding.shimmerViewContainer.stopShimmer();
-
             }
 
             @Override

@@ -13,6 +13,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 
+import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.flowerapp.MainActivity;
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityLoginBinding;
@@ -34,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private ApiService apiService;
     private Retrofit retrofit;
     private LoadingDialogFragment loadingDialog;
+    private LottieProgressDialog lottieProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,11 @@ public class LoginActivity extends AppCompatActivity {
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
         loadingDialog = new LoadingDialogFragment();
+        lottieProgressDialog = new LottieProgressDialog(this,
+                false, null, null, null,
+                null, LottieProgressDialog.SAMPLE_6, null, null);
         EdgeToEdge.enable(this);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -75,7 +81,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(String email, String password){
         FragmentManager fragmentManager = getSupportFragmentManager();
-        loadingDialog.show(fragmentManager, "loading");
+//        loadingDialog.show(fragmentManager, "loading");
+        lottieProgressDialog.show();
         Call<Login> call = apiService.login(email, password);
         Log.d(TAG, "email: " + email);
         Log.d(TAG, "passowrd: " + password);
@@ -91,13 +98,15 @@ public class LoginActivity extends AppCompatActivity {
 
                         // Simpan token ke SharedPreferences
                         SharedPrefManager.getInstance(LoginActivity.this).saveToken(token);
-                        loadingDialog.dismiss();
+//                        loadingDialog.dismiss();
+                        lottieProgressDialog.dismiss();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }else{
                         Toastie.topWarning(LoginActivity.this, "Login Gagal, Password atau email salah", Toast.LENGTH_LONG).show();
-                        loadingDialog.dismiss();
+//                        loadingDialog.dismiss();
+                        lottieProgressDialog.dismiss();
                     }
                 }
             }
@@ -106,7 +115,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<Login> call, Throwable t) {
                 Toastie.topWarning(LoginActivity.this, "Error," + t.getMessage().toString(), Toast.LENGTH_LONG).show();
                 Log.d("LoginActivity", "onFailure: "+ t.getMessage());
-                loadingDialog.dismiss();
+//                loadingDialog.dismiss();
+                lottieProgressDialog.dismiss();
             }
 
         });
