@@ -43,8 +43,6 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
 
         holder.tvTitle.setText(produk.getProduk());
         holder.tvPrice.setText("Harga: " + convertedPrice);
-        holder.tvDesc.setText(produk.getDeskripsi());
-        holder.tvStok.setText("Stok: " + stok);
 
         Glide.with(context)
                 .load(RClient.getBaseUrl() + produk.getGambar())
@@ -59,14 +57,12 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTitle, tvDesc, tvPrice, tvStok;
+        TextView tvTitle,tvPrice;
         ImageView ivProduk;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_nama_product);
-            tvDesc = itemView.findViewById(R.id.tv_desc);
             tvPrice = itemView.findViewById(R.id.tv_price);
-            tvStok = itemView.findViewById(R.id.tv_stok);
             ivProduk = itemView.findViewById(R.id.iv_product);
         }
     }

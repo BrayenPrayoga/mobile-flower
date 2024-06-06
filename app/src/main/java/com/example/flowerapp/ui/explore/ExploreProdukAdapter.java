@@ -47,9 +47,7 @@ public class ExploreProdukAdapter extends RecyclerView.Adapter<ExploreProdukAdap
         String convertedPrice = ConvertCurrency.formatToRupiah(Integer.parseInt(data.getHarga()));
 
         holder.tvTitle.setText(data.getProduk());
-        holder.tvDesc.setText(data.getDeskripsi());
         holder.tvHarga.setText("Harga: " + convertedPrice);
-        holder.tvStok.setText("Stok: " + data.getStok());
 
         Glide.with(context)
                 .load(RClient.getBaseUrl() + data.getGambar())
@@ -99,15 +97,13 @@ public class ExploreProdukAdapter extends RecyclerView.Adapter<ExploreProdukAdap
     };
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView tvTitle, tvDesc, tvHarga, tvStok;
+        TextView tvTitle, tvHarga;
         ImageView ivProduk;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_nama_product);
-            tvDesc = itemView.findViewById(R.id.tv_desc);
             tvHarga = itemView.findViewById(R.id.tv_price);
-            tvStok = itemView.findViewById(R.id.tv_stok);
             ivProduk = itemView.findViewById(R.id.iv_product);
         }
     }
