@@ -1,10 +1,12 @@
 package com.example.flowerapp.model;
 
+import com.example.flowerapp.model.data.Logout;
 import com.example.flowerapp.model.response.GetBanner;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.response.GetProduk;
 import com.example.flowerapp.model.response.RegistUser;
+import com.example.flowerapp.model.response.UpdateUser;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -37,5 +39,16 @@ public interface ApiService {
 
     @GET("produk/get-produk")
     Call<GetProduk> getProduk();
+
+    @FormUrlEncoded
+    @POST("users/update")
+    Call<UpdateUser> updateUser(
+            @Field("nama") String name,
+            @Field("email") String email,
+            @Field("password") String password
+    );
+
+    @POST("logout")
+    Call<Logout> logout();
 
 }

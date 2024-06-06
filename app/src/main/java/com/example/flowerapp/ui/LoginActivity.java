@@ -21,7 +21,6 @@ import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.User;
 import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.RClient;
-import com.example.flowerapp.util.LoadingDialogFragment;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
 
@@ -35,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private ApiService apiService;
     private Retrofit retrofit;
-    private LoadingDialogFragment loadingDialog;
     private LottieProgressDialog lottieProgressDialog;
 
     @Override
@@ -45,7 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
-        loadingDialog = new LoadingDialogFragment();
         lottieProgressDialog = new LottieProgressDialog(this,
                 false, null, null, null,
                 null, LottieProgressDialog.SAMPLE_6, null, null);

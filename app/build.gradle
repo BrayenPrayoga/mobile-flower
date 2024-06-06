@@ -56,4 +56,6 @@ dependencies {
 
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
     implementation 'com.github.welcome2c:LottieProgressDialog:1.0.1'
+    //    Validation Animation
+    implementation 'com.daimajia.androidanimations:library:2.4@aar'
 }

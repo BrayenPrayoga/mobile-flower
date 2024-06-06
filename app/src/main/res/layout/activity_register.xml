@@ -60,6 +60,7 @@
         android:paddingHorizontal="20dp"
         android:layout_marginHorizontal="30dp"
         android:background="@drawable/bg_et_login"
+        android:inputType="textPassword"
         android:hint="Kata Sandi"
         android:textColor="@color/black"/>
 
@@ -73,6 +74,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_marginTop="20dp"
         android:paddingHorizontal="20dp"
+        android:inputType="textPassword"
         android:background="@drawable/bg_et_login"
         android:hint="Konfirmasi Kata Sandi"
         android:textColor="@color/black"/>

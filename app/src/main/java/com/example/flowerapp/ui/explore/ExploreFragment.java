@@ -79,12 +79,17 @@ public class ExploreFragment extends Fragment implements MaterialSearchBar.OnSea
                 if(response.isSuccessful() && response.body() != null && produk.size() > 0){
 //                    binding.tvProdukKosong.setVisibility(View.GONE);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-                    binding.rvDataExplore.setLayoutManager(gridLayoutManager);
-                    exploreProdukAdapter = new ExploreProdukAdapter(produk, getContext());
-                    binding.rvDataExplore.setAdapter(exploreProdukAdapter);
-                }else{
-//                    binding.tvProdukKosong.setVisibility(View.VISIBLE);
-//                    binding.tvProdukKosong.setText("Produk Kosong");
+                    if (binding != null){
+                        binding.rvDataExplore.setLayoutManager(gridLayoutManager);
+                        exploreProdukAdapter = new ExploreProdukAdapter(produk, getContext());
+                        binding.rvDataExplore.setAdapter(exploreProdukAdapter);
+                    }
+                }else
+                {
+                  if(binding != null){
+                      binding.tvProdukKosong.setVisibility(View.VISIBLE);
+                      binding.tvProdukKosong.setText("Produk Kosong");
+                  }
                 }
 
             }

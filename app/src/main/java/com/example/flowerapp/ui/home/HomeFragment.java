@@ -56,6 +56,9 @@ public class HomeFragment extends Fragment {
         String token = prefManager.getToken();
         apiService = RClient.getRetrofitInstanceWithAuth(token).create(ApiService.class);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        binding.rvListKategori.setLayoutManager(linearLayoutManager);
+
         Log.d("HomeFragment", "token: "+ token);
         getDataBanner();
         getDataProduk();
@@ -100,7 +103,10 @@ public class HomeFragment extends Fragment {
                     {
                         packs.add(new Bean(RClient.getBaseUrl() + bannerData.getGambar()));
                     };
-                    binding.banner.setBannerData(packs);
+                    if (binding != null){
+                        binding.banner.setBannerData(packs);
+                    }
+
                 }else {
 
                 }
@@ -126,13 +132,14 @@ public class HomeFragment extends Fragment {
                     if (!response.body().getData().isEmpty()) {
                         List<Kategori> listKategori = response.body().getData();
                         if (!listKategori.isEmpty()) {
-                            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-                            binding.rvListKategori.setLayoutManager(linearLayoutManager);
                             KategoriAdapter kategoriAdapter = new KategoriAdapter(getContext(), listKategori);
-                            binding.rvListKategori.setAdapter(kategoriAdapter);
+                            if (binding != null){
+                                binding.rvListKategori.setAdapter(kategoriAdapter);
 
-                            binding.shimmerViewContainer.setVisibility(View.GONE);
-                            binding.shimmerViewContainer.stopShimmer();
+                                binding.shimmerViewContainer.setVisibility(View.GONE);
+                                binding.shimmerViewContainer.stopShimmer();
+                            }
+
                         }
                     }
                 }

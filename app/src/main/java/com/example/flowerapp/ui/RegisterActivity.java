@@ -20,7 +20,6 @@ import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.User;
 import com.example.flowerapp.model.response.RegistUser;
-import com.example.flowerapp.util.LoadingDialogFragment;
 import com.mrntlu.toastie.Toastie;
 
 import retrofit2.Call;
@@ -33,7 +32,6 @@ public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
     private Retrofit retrofit;
     private ApiService apiService;
-    private LoadingDialogFragment loadingDialog;
     private LottieProgressDialog lottieProgressDialog;
 
     private static final String TAG = "RegisterActivity";
@@ -45,7 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
-        loadingDialog = new LoadingDialogFragment();
         lottieProgressDialog = new LottieProgressDialog(this,
                 false, null, null, null,
                 null, LottieProgressDialog.SAMPLE_6, null, null);
