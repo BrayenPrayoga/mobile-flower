@@ -8,9 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RClient {
     private static Retrofit retrofit;
-    private static  String BASE_URL = "http://192.168.1.6:8000/api/";
+    private static  String BASE_URL = "http://192.168.1.4:8000/api/";
+//    private static  String BASE_URL = "https://neidra.my.id/api/";
 
-    public static String BASE_URL_IMAGE = "http://192.168.1.6:8000/public/";
+    public static String BASE_URL_IMAGE = "http://192.168.1.4:8000/";
+//public static String BASE_URL_IMAGE = "https://neidra.my.id/";
     public static String getBaseUrl() {
         return BASE_URL_IMAGE;
     }

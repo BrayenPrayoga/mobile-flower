@@ -5,6 +5,7 @@ import com.example.flowerapp.model.response.GetBanner;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.response.GetProduk;
+import com.example.flowerapp.model.response.PostCheckout;
 import com.example.flowerapp.model.response.RegistUser;
 import com.example.flowerapp.model.response.UpdateUser;
 
@@ -50,5 +51,12 @@ public interface ApiService {
 
     @POST("logout")
     Call<Logout> logout();
+
+    @FormUrlEncoded
+    @POST("checkout/store")
+    Call<PostCheckout> checkout(
+            @Field("id_produk") String idProduk,
+            @Field("jumlah") String jumlah
+    );
 
 }

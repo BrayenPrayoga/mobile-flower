@@ -101,6 +101,7 @@ public class HomeFragment extends Fragment {
                 if(data.size() > 0 && response.body().getData() != null){
                     for (Banner bannerData : data)
                     {
+                        Log.d(TAG, "dataBanner: " + bannerData.getGambar());
                         packs.add(new Bean(RClient.getBaseUrl() + bannerData.getGambar()));
                     };
                     if (binding != null){
@@ -139,11 +140,9 @@ public class HomeFragment extends Fragment {
                                 binding.shimmerViewContainer.setVisibility(View.GONE);
                                 binding.shimmerViewContainer.stopShimmer();
                             }
-
                         }
                     }
                 }
-
             }
 
             @Override

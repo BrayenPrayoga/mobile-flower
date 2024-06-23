@@ -1,10 +1,24 @@
 package com.example.flowerapp.model.data;
+
+import com.google.gson.annotations.SerializedName;
+
 public class Produk {
+
+    @SerializedName("id_produk")
+    private int id_produk;
     private String produk;
     private String gambar;
     private String deskripsi;
     private String harga;
     private int stok;
+
+    public int getId_produk() {
+        return id_produk;
+    }
+
+    public void setId_produk(int id_produk) {
+        this.id_produk = id_produk;
+    }
 
     public String getProduk() {
         return produk;
