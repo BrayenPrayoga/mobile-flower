@@ -1,22 +1,11 @@
 package com.example.flowerapp.model.data;
-
-
-public class Checkout {
-    private int id;
+public class PostCheckout {
     private int id_users;
-    private int id_produk;
-    private int jumlah;
+    private String id_produk;
+    private String jumlah;
     private String created_at;
     private String updated_at;
-    private RelasiProduk relasi_produk;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    private int id;
 
     public int getId_users() {
         return id_users;
@@ -26,19 +15,19 @@ public class Checkout {
         this.id_users = id_users;
     }
 
-    public int getId_produk() {
+    public String getId_produk() {
         return id_produk;
     }
 
-    public void setId_produk(int id_produk) {
+    public void setId_produk(String id_produk) {
         this.id_produk = id_produk;
     }
 
-    public int getJumlah() {
+    public String getJumlah() {
         return jumlah;
     }
 
-    public void setJumlah(int jumlah) {
+    public void setJumlah(String jumlah) {
         this.jumlah = jumlah;
     }
 
@@ -58,11 +47,11 @@ public class Checkout {
         this.updated_at = updated_at;
     }
 
-    public RelasiProduk getRelasi_produk() {
-        return relasi_produk;
+    public int getId() {
+        return id;
     }
 
-    public void setRelasi_produk(RelasiProduk relasi_produk) {
-        this.relasi_produk = relasi_produk;
+    public void setId(int id) {
+        this.id = id;
     }
 }

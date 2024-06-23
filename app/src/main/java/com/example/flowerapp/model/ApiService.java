@@ -2,6 +2,7 @@ package com.example.flowerapp.model;
 
 import com.example.flowerapp.model.data.Logout;
 import com.example.flowerapp.model.response.GetBanner;
+import com.example.flowerapp.model.response.GetCheckout;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.response.GetProduk;
@@ -58,5 +59,8 @@ public interface ApiService {
             @Field("id_produk") String idProduk,
             @Field("jumlah") String jumlah
     );
+
+    @GET("checkout/get-checkout")
+    Call<GetCheckout> listCart();
 
 }

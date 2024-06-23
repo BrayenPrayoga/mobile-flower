@@ -1,10 +1,13 @@
 package com.example.flowerapp.model.response;
 
+import com.example.flowerapp.model.data.Checkout;
 import com.example.flowerapp.model.data.Meta;
 
-public class PostCheckout {
+import java.util.List;
+
+public class GetCheckout {
     private Meta meta;
-    private com.example.flowerapp.model.data.PostCheckout data;
+    private List<Checkout> data;
 
     public Meta getMeta() {
         return meta;
@@ -14,11 +17,11 @@ public class PostCheckout {
         this.meta = meta;
     }
 
-    public com.example.flowerapp.model.data.PostCheckout getData() {
+    public List<Checkout> getData() {
         return data;
     }
 
-    public void setData(com.example.flowerapp.model.data.PostCheckout data) {
+    public void setData(List<Checkout> data) {
         this.data = data;
     }
 }

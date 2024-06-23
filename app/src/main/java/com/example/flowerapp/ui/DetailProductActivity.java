@@ -3,7 +3,6 @@ package com.example.flowerapp.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -20,8 +19,7 @@ import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityDetailProductBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
-import com.example.flowerapp.model.data.Checkout;
-import com.example.flowerapp.model.response.PostCheckout;
+import com.example.flowerapp.model.data.PostCheckout;
 import com.example.flowerapp.util.ConvertCurrency;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
@@ -135,10 +133,10 @@ public class DetailProductActivity extends AppCompatActivity {
         Log.d("DetailProductActivity", "Basket: " + binding.basketQty.getTvQuantity$lib_release().getText().toString());
         String quantity = binding.basketQty.getTvQuantity$lib_release().getText().toString();
 
-        apiService.checkout(String.valueOf(idProduk), quantity).enqueue(new Callback<PostCheckout>() {
+        apiService.checkout(String.valueOf(idProduk), quantity).enqueue(new Callback<com.example.flowerapp.model.response.PostCheckout>() {
             @Override
-            public void onResponse(Call<PostCheckout> call, Response<PostCheckout> response) {
-                Checkout data = response.body().getData();
+            public void onResponse(Call<com.example.flowerapp.model.response.PostCheckout> call, Response<com.example.flowerapp.model.response.PostCheckout> response) {
+                PostCheckout data = response.body().getData();
                 Log.d("DetailProductActivity", "onResponse: " + response.isSuccessful());
                 Log.d("DetailProductActivity", "onResponse: " + response.code());
 
@@ -148,7 +146,7 @@ public class DetailProductActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<PostCheckout> call, Throwable t) {
+            public void onFailure(Call<com.example.flowerapp.model.response.PostCheckout> call, Throwable t) {
                 Toastie.topWarning(DetailProductActivity.this, "Pesanan Gagal Ditambahkan", Toast.LENGTH_SHORT).show();
                 Log.d("DetailProductActivity", "onFailure: " + t.getMessage());
             }
