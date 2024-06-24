@@ -59,4 +59,6 @@ dependencies {
     //    Validation Animation
     implementation 'com.daimajia.androidanimations:library:2.4@aar'
     implementation 'com.github.yusufonderd:BasketLayout:1.0'
+
+    implementation 'com.github.glm-mawla:bottom-Action-Dialog:1.0.1'
 }
