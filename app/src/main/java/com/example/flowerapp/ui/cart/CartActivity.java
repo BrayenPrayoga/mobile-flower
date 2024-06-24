@@ -1,6 +1,7 @@
 package com.example.flowerapp.ui.cart;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.flowerapp.R;
@@ -15,6 +17,7 @@ import com.example.flowerapp.databinding.ActivityCartBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.response.GetCheckout;
+import com.example.flowerapp.ui.home.ProdukAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,7 +26,6 @@ import retrofit2.Retrofit;
 
 public class CartActivity extends AppCompatActivity {
     private ActivityCartBinding binding;
-    private RecyclerView recyclerView;
     private ApiService apiService;
     private Retrofit retrofit;
     @Override
@@ -41,6 +43,7 @@ public class CartActivity extends AppCompatActivity {
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
 
+        getNotifCart();
         binding.ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,16 +51,32 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    public void getNotifCart(){
         apiService.listCart().enqueue(new Callback<GetCheckout>() {
             @Override
             public void onResponse(Call<GetCheckout> call, Response<GetCheckout> response) {
+                if(response.isSuccessful() && response.body().getData().size() > 0){
+                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false);
+                    binding.rvItemCart.setLayoutManager(linearLayoutManager);
+                    CartAdapter cartAdapter = new CartAdapter(CartActivity.this, response.body().getData());
+                    binding.rvItemCart.setAdapter(cartAdapter);
+                }
 
             }
 
             @Override
             public void onFailure(Call<GetCheckout> call, Throwable t) {
-
+                Log.d("CartActivity", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getNotifCart();
     }
 }

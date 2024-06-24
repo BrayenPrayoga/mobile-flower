@@ -25,8 +25,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     private Context context;
     public List<Checkout> listCheckout;
 
-    public CartAdapter(Context context){
+    public CartAdapter(Context context, List<Checkout> listCheckout){
         this.context = context;
+        this.listCheckout = listCheckout;
     }
     @NonNull
     @Override
@@ -40,8 +41,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         Checkout checkout = listCheckout.get(position);
 
         holder.tvProduct.setText(checkout.getRelasi_produk().getProduk());
-        holder.tvQty.setText(checkout.getJumlah());
-        holder.tvPrice.setText(checkout.getRelasi_produk().getHarga());
+        holder.tvQty.setText("Jumlah: " + String.valueOf(checkout.getJumlah()));
+        holder.tvPrice.setText(String.valueOf(checkout.getRelasi_produk().getHarga()));
 
         Glide.with(context)
                 .load(RClient.getBaseUrl() + checkout.getRelasi_produk().getGambar())

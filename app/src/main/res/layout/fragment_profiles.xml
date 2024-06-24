@@ -60,16 +60,38 @@
             android:layout_below="@id/btn_update_profile"
             android:layout_centerHorizontal="true"/>
 
-        <Button
-            android:id="@+id/btn_cart"
+
+        <FrameLayout
+            android:id="@+id/fl_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:textColor="@color/black"
-            android:text="Keranjang Belanja"
-            android:backgroundTint="@color/white"
             android:layout_below="@id/btn_riwayat_belanja"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:id="@+id/btn_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/black"
+                android:text="Keranjang Belanja"
+                android:backgroundTint="@color/white"
+                android:layout_below="@id/btn_riwayat_belanja"
+                android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:id="@+id/badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_badge"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:layout_gravity="end|top"
+                android:padding="4dp"
+                android:visibility="gone"/>
+        </FrameLayout>
+
 
         <Button
             android:id="@+id/btn_logout"
@@ -79,7 +101,7 @@
             android:textColor="@color/black"
             android:text="Logout"
             android:backgroundTint="@color/white"
-            android:layout_below="@id/btn_cart"
+            android:layout_below="@id/fl_cart"
             android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>

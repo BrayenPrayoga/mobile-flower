@@ -19,10 +19,15 @@ import com.example.flowerapp.databinding.FragmentProfilesBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.User;
+import com.example.flowerapp.model.data.Checkout;
 import com.example.flowerapp.model.data.Logout;
+import com.example.flowerapp.model.response.GetCheckout;
 import com.example.flowerapp.ui.LoginActivity;
+import com.example.flowerapp.ui.cart.CartActivity;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,6 +62,7 @@ public class ProfileFragment extends Fragment {
 
         apiService = RClient.getRetrofitInstanceWithAuth(token).create(ApiService.class);
 
+        getNotifCart();
         binding.tvNama.setText(user.getName());
         updateProfileDialog = new UpdateProfileDialog(getContext());
         binding.btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +75,10 @@ public class ProfileFragment extends Fragment {
         binding.btnCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getContext(), CartActivity.class);
+                startActivity(intent);
 
+                hideBadge();
             }
         });
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -95,9 +104,46 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    private void showBadge(int count){
+        if (count > 0){
+            binding.badge.setText(String.valueOf(count));
+            binding.badge.setVisibility(View.VISIBLE);
+        }else{
+            binding.badge.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void hideBadge(){
+        binding.badge.setVisibility(View.INVISIBLE);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getNotifCart();
+    }
+
+    public void getNotifCart(){
+        apiService.listCart().enqueue(new Callback<GetCheckout>() {
+            @Override
+            public void onResponse(Call<GetCheckout> call, Response<GetCheckout> response) {
+                if(response.isSuccessful() && response.body().getData().size() > 0){
+                    List<Checkout> data = response.body().getData();
+
+                    showBadge(data.size());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetCheckout> call, Throwable t) {
+                Log.d("ProfileFragment", "onFailure: " + t.getMessage());
+            }
+        });
     }
 }
