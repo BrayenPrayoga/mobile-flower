@@ -3,18 +3,11 @@ package com.example.flowerapp.model.data;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverters;
-
-import com.example.flowerapp.model.room.Converters;
 
 import java.util.List;
 
-@Entity(tableName = "transaction")
-@TypeConverters(Converters.class)
 public class Transaksi {
 
-    @NonNull
-    @PrimaryKey(autoGenerate = false)
     private String no_order;
     private int id_users;
 

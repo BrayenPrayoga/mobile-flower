@@ -16,6 +16,7 @@ import com.example.flowerapp.model.response.UpdateUser;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -80,8 +81,13 @@ public interface ApiService {
     Call<PostTransaksi> buatTransaksi(
             @Field("total_harga_transaksi") String totalHargaTransaksi,
             @Field("id_kupon") String idKupon,
-            @Field("id_produk") List<String> id_produk,
-            @Field("jumlah") List<String> jumlah,
-            @Field("total_harga") List<String> totalHarga
+            @Field("id_produk[]") String id_produk,
+            @Field("jumlah[]") String jumlah,
+            @Field("total_harga[]") String totalHarga
+    );
+
+    @POST("transaksi/store")
+    Call<PostTransaksi> testTransaksi(
+            @Body RequestTransaksi reqeust
     );
 }

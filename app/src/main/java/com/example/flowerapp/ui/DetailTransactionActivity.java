@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,20 +20,19 @@ import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityDetailTransactionBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
+import com.example.flowerapp.model.RequestTransaksi;
 import com.example.flowerapp.model.data.Bank;
-import com.example.flowerapp.model.data.DetailProduk;
 import com.example.flowerapp.model.data.Kupon;
 import com.example.flowerapp.model.data.Transaksi;
 import com.example.flowerapp.model.response.GetKupon;
 import com.example.flowerapp.model.response.GetRekening;
 import com.example.flowerapp.model.response.PostTransaksi;
-import com.example.flowerapp.model.room.AppDatabase;
-import com.example.flowerapp.model.room.TransactionDAO;
 import com.example.flowerapp.util.ConvertCurrency;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mrntlu.toastie.Toastie;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,9 +48,6 @@ public class DetailTransactionActivity extends AppCompatActivity {
     private int totalHarga;
     private int idBankSelected;
 
-    private AppDatabase db;
-    private TransactionDAO transactionDAO;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +62,6 @@ public class DetailTransactionActivity extends AppCompatActivity {
 
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
-
-        db = AppDatabase.getInstance(DetailTransactionActivity.this);
-        transactionDAO = db.transactionDAO();
-
 
         Intent dataIntent = getIntent();
         Intent data = getIntent();
@@ -152,9 +143,9 @@ public class DetailTransactionActivity extends AppCompatActivity {
                 submitTransaksi(
                         binding.tvTotal.getText().toString(),
                         String.valueOf(idKupon),
-                        paramIdProduk,
-                        paramJumlah,
-                        paramTotalHarga
+                        String.valueOf(idProduk),
+                        String.valueOf(jumlahPembelian),
+                        hargaProduk
                 );
 
             }
@@ -204,9 +195,9 @@ public class DetailTransactionActivity extends AppCompatActivity {
     private void submitTransaksi(
             String totalHargaTransaksi,
             String idKupon,
-            List<String> idProduk,
-            List<String> jumlah,
-            List<String> totalHarga
+            String idProduk,
+            String jumlah,
+            String totalHarga
     ){
         apiService.buatTransaksi(totalHargaTransaksi, idKupon, idProduk, jumlah, totalHarga).enqueue(new Callback<PostTransaksi>() {
             @Override
@@ -237,8 +228,6 @@ public class DetailTransactionActivity extends AppCompatActivity {
 //                    transaksi.setId(data.getId());
 //                    transaksi.setDetail(data.getDetail());
 
-                    transactionDAO.insert(transaksi);
-
                     Toastie.topSuccess(DetailTransactionActivity.this,"Pesanan Berhasil dikonfirmasi silahkan lakukan pembayaram.", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -247,8 +236,34 @@ public class DetailTransactionActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<PostTransaksi> call, Throwable t) {
                 Log.d("DetailTransactionActivity", "onFailure: " + t.getMessage());
+                t.printStackTrace();
             }
         });
+
+//        RequestTransaksi request = new RequestTransaksi();
+//
+//        request.setTotal_harga_transaksi("100000");
+//        request.setId_kupon("KU12345");
+//        request.setId_produk("1");
+//        request.setJumlah("1");
+//        request.setTotal_harga("5000");
+
+//        apiService.testTransaksi(request).enqueue(new Callback<PostTransaksi>() {
+//            @Override
+//            public void onResponse(Call<PostTransaksi> call, Response<PostTransaksi> response) {
+//
+//                Log.d("DetailTransactionActivity", "onResponse: " + response.body());
+//                Log.d("DetailTransactionActivity", "onResponse: " + response.errorBody().toString());
+//                Log.d("DetailTransactionActivity", "onResponse: " + response.raw());
+//                Log.d("DetailTransactionActivity", "onResponse: " + response.isSuccessful());
+//            }
+//
+//            @Override
+//            public void onFailure(Call<PostTransaksi> call, Throwable t) {
+//                Log.d("DetailTransactionActivity", "onFailure: "+ t.getMessage());
+//
+//            }
+//        });
 
     }
 }

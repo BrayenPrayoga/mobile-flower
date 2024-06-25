@@ -4,14 +4,14 @@ import com.example.flowerapp.model.data.Meta;
 import com.example.flowerapp.model.data.Transaksi;
 
 public class PostTransaksi {
-    private Meta meta;
+    private String meta;
     private Transaksi data;
 
-    public Meta getMeta() {
+    public String getMeta() {
         return meta;
     }
 
-    public void setMeta(Meta meta) {
+    public void setMeta(String meta) {
         this.meta = meta;
     }
 
