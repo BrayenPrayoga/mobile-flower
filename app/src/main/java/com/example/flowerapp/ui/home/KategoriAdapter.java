@@ -38,10 +38,13 @@ public class KategoriAdapter extends RecyclerView.Adapter<KategoriAdapter.ViewHo
         Kategori data = listKategori.get(position);
         holder.tvTitle.setText(data.getKategori());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        holder.rvProduk.setLayoutManager(linearLayoutManager);
-        ProdukAdapter produkAdapter = new ProdukAdapter(data.getProduk(), context);
-        holder.rvProduk.setAdapter(produkAdapter);
+        if(data.getProduk() != null && data.getProduk().size() > 0){
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            holder.rvProduk.setLayoutManager(linearLayoutManager);
+            ProdukAdapter produkAdapter = new ProdukAdapter(data.getProduk(), context);
+            holder.rvProduk.setAdapter(produkAdapter);
+        }
+
 
     }
 

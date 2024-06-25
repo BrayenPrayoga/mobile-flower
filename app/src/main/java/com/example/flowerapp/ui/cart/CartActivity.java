@@ -17,7 +17,6 @@ import com.example.flowerapp.databinding.ActivityCartBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.response.GetCheckout;
-import com.example.flowerapp.ui.home.ProdukAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +42,7 @@ public class CartActivity extends AppCompatActivity {
         retrofit = RClient.getRetrofitInstance();
         apiService = retrofit.create(ApiService.class);
 
-        getNotifCart();
+        getListCart();
         binding.ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +53,7 @@ public class CartActivity extends AppCompatActivity {
 
     }
 
-    public void getNotifCart(){
+    public void getListCart(){
         apiService.listCart().enqueue(new Callback<GetCheckout>() {
             @Override
             public void onResponse(Call<GetCheckout> call, Response<GetCheckout> response) {
@@ -77,6 +76,6 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        getNotifCart();
+        getListCart();
     }
 }

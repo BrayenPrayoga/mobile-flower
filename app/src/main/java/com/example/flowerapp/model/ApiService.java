@@ -5,16 +5,22 @@ import com.example.flowerapp.model.response.GetBanner;
 import com.example.flowerapp.model.response.GetCheckout;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Login;
+import com.example.flowerapp.model.response.GetKupon;
 import com.example.flowerapp.model.response.GetProduk;
+import com.example.flowerapp.model.response.GetRekening;
 import com.example.flowerapp.model.response.PostCheckout;
+import com.example.flowerapp.model.response.PostTransaksi;
 import com.example.flowerapp.model.response.RegistUser;
 import com.example.flowerapp.model.response.UpdateUser;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface ApiService {
     @FormUrlEncoded
@@ -63,4 +69,19 @@ public interface ApiService {
     @GET("checkout/get-checkout")
     Call<GetCheckout> listCart();
 
+    @GET("kupon/cek-kupon")
+    Call<GetKupon> getKupon(@Query("kode") String kode);
+
+    @GET("master-bank/get-bank")
+    Call<GetRekening> getNorek();
+
+    @FormUrlEncoded
+    @POST("transaksi/store")
+    Call<PostTransaksi> buatTransaksi(
+            @Field("total_harga_transaksi") String totalHargaTransaksi,
+            @Field("id_kupon") String idKupon,
+            @Field("id_produk") List<String> id_produk,
+            @Field("jumlah") List<String> jumlah,
+            @Field("total_harga") List<String> totalHarga
+    );
 }

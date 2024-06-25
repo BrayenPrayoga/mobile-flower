@@ -1,7 +1,9 @@
 package com.example.flowerapp.ui.cart;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import com.bumptech.glide.Glide;
 import com.example.flowerapp.R;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.data.Checkout;
+import com.example.flowerapp.model.data.RelasiProduk;
+import com.example.flowerapp.ui.DetailTransactionActivity;
 
 import java.util.List;
 
@@ -45,7 +49,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         holder.tvPrice.setText(String.valueOf(checkout.getRelasi_produk().getHarga()));
 
         Glide.with(context)
-                .load(RClient.getBaseUrl() + checkout.getRelasi_produk().getGambar())
+                .load(RClient.getBaseUrl() + "img_produk/" + checkout.getRelasi_produk().getGambar())
                 .placeholder(androidx.transition.R.drawable.abc_text_cursor_material)
                 .error(androidx.transition.R.drawable.notification_tile_bg)
                 .into(holder.ivProduct);
@@ -53,7 +57,15 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         holder.btnBayar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(context, DetailTransactionActivity.class);
+                i.putExtra("id-produk", checkout.getId_produk());
+                i.putExtra("nama-produk", checkout.getRelasi_produk().getProduk());
+                i.putExtra("harga-produk", checkout.getRelasi_produk().getHarga());
+                i.putExtra("desc-produk", checkout.getRelasi_produk().getDeskripsi());
+                i.putExtra("gambar-produk", checkout.getRelasi_produk().getGambar());
+                i.putExtra("jumlah-pembelian", checkout.getJumlah());
 
+                context.startActivity(i);
             }
         });
 

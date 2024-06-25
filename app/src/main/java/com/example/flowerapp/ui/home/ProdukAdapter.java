@@ -62,6 +62,8 @@ public class ProdukAdapter extends RecyclerView.Adapter<ProdukAdapter.ViewHolder
         holder.tvTitle.setText(produk.getProduk());
         holder.tvPrice.setText("Harga: " + convertedPrice);
 
+        Log.d("ProdukAdapter", "onBindViewHolder: " + produk.getGambar());
+
         Glide.with(context)
                 .load(RClient.getBaseUrl() + produk.getGambar())
                 .placeholder(androidx.transition.R.drawable.abc_text_cursor_material)
