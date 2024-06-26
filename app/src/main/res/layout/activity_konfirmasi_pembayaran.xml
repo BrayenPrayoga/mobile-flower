@@ -5,7 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.KonfirmasiActivity">
+    tools:context=".ui.konfirmasipembayaran.KonfirmasiPembayaranActivity">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list_konfirmasi"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 

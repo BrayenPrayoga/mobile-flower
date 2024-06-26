@@ -17,6 +17,7 @@ import com.example.flowerapp.databinding.ActivityCartBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.response.GetCheckout;
+import com.example.flowerapp.util.SharedPrefManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,6 +27,7 @@ import retrofit2.Retrofit;
 public class CartActivity extends AppCompatActivity {
     private ActivityCartBinding binding;
     private ApiService apiService;
+    private SharedPrefManager prefManager;
     private Retrofit retrofit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,9 @@ public class CartActivity extends AppCompatActivity {
             return insets;
         });
 
-        retrofit = RClient.getRetrofitInstance();
+        prefManager = new SharedPrefManager(CartActivity.this);
+        String token = prefManager.getToken();
+        retrofit = RClient.getRetrofitInstanceWithAuth(token);
         apiService = retrofit.create(ApiService.class);
 
         getListCart();

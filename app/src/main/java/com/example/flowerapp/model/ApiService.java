@@ -8,6 +8,7 @@ import com.example.flowerapp.model.data.Login;
 import com.example.flowerapp.model.response.GetKupon;
 import com.example.flowerapp.model.response.GetProduk;
 import com.example.flowerapp.model.response.GetRekening;
+import com.example.flowerapp.model.response.GetTransaksi;
 import com.example.flowerapp.model.response.PostCheckout;
 import com.example.flowerapp.model.response.PostTransaksi;
 import com.example.flowerapp.model.response.RegistUser;
@@ -80,6 +81,7 @@ public interface ApiService {
     @POST("transaksi/store")
     Call<PostTransaksi> buatTransaksi(
             @Field("total_harga_transaksi") String totalHargaTransaksi,
+            @Field("alamat") String alamat,
             @Field("id_kupon") String idKupon,
             @Field("id_produk[]") String id_produk,
             @Field("jumlah[]") String jumlah,
@@ -90,4 +92,7 @@ public interface ApiService {
     Call<PostTransaksi> testTransaksi(
             @Body RequestTransaksi reqeust
     );
+
+    @GET("transaksi/get-transaksi")
+    Call<GetTransaksi> getListTransaksi();
 }

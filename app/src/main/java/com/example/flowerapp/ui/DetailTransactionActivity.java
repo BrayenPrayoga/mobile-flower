@@ -28,6 +28,7 @@ import com.example.flowerapp.model.response.GetKupon;
 import com.example.flowerapp.model.response.GetRekening;
 import com.example.flowerapp.model.response.PostTransaksi;
 import com.example.flowerapp.util.ConvertCurrency;
+import com.example.flowerapp.util.SharedPrefManager;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mrntlu.toastie.Toastie;
 
@@ -45,6 +46,7 @@ public class DetailTransactionActivity extends AppCompatActivity {
     private ActivityDetailTransactionBinding binding;
     private ApiService apiService;
     private Retrofit retrofit;
+    private SharedPrefManager sharedPrefManager;
     private int totalHarga;
     private int idBankSelected;
 
@@ -60,7 +62,9 @@ public class DetailTransactionActivity extends AppCompatActivity {
             return insets;
         });
 
-        retrofit = RClient.getRetrofitInstance();
+        sharedPrefManager = new SharedPrefManager(DetailTransactionActivity.this);
+        String token = sharedPrefManager.getToken();
+        retrofit = RClient.getRetrofitInstanceWithAuth(token);
         apiService = retrofit.create(ApiService.class);
 
         Intent dataIntent = getIntent();
@@ -142,6 +146,7 @@ public class DetailTransactionActivity extends AppCompatActivity {
 
                 submitTransaksi(
                         binding.tvTotal.getText().toString(),
+                        binding.etAlamat.getText().toString(),
                         String.valueOf(idKupon),
                         String.valueOf(idProduk),
                         String.valueOf(jumlahPembelian),
@@ -194,12 +199,13 @@ public class DetailTransactionActivity extends AppCompatActivity {
 
     private void submitTransaksi(
             String totalHargaTransaksi,
+            String alamat,
             String idKupon,
             String idProduk,
             String jumlah,
             String totalHarga
     ){
-        apiService.buatTransaksi(totalHargaTransaksi, idKupon, idProduk, jumlah, totalHarga).enqueue(new Callback<PostTransaksi>() {
+        apiService.buatTransaksi(totalHargaTransaksi, alamat, idKupon, idProduk, jumlah, totalHarga).enqueue(new Callback<PostTransaksi>() {
             @Override
             public void onResponse(Call<PostTransaksi> call, Response<PostTransaksi> response) {
                 if (response.isSuccessful() && response.body().getData() != null){
