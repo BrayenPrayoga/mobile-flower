@@ -5,23 +5,27 @@ import com.example.flowerapp.model.response.GetBanner;
 import com.example.flowerapp.model.response.GetCheckout;
 import com.example.flowerapp.model.response.GetKategori;
 import com.example.flowerapp.model.data.Login;
+import com.example.flowerapp.model.response.GetKonfirmasiPembayaran;
 import com.example.flowerapp.model.response.GetKupon;
 import com.example.flowerapp.model.response.GetProduk;
 import com.example.flowerapp.model.response.GetRekening;
 import com.example.flowerapp.model.response.GetTransaksi;
 import com.example.flowerapp.model.response.PostCheckout;
+import com.example.flowerapp.model.response.PostKonfirmasiPembayaran;
 import com.example.flowerapp.model.response.PostTransaksi;
 import com.example.flowerapp.model.response.RegistUser;
 import com.example.flowerapp.model.response.UpdateUser;
 
-import java.util.List;
-
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -95,4 +99,19 @@ public interface ApiService {
 
     @GET("transaksi/get-transaksi")
     Call<GetTransaksi> getListTransaksi();
+
+    @GET("konfirmasi-pembayaran/get-konfirmasi-pembarayan")
+    Call<GetKonfirmasiPembayaran> getKonfirmasiPembayaran();
+
+    @Multipart
+    @POST("konfirmasi-pembayaran/store")
+    Call<PostKonfirmasiPembayaran> postKonfirmasiPembayaran(
+            @Part("bank_asal") RequestBody bankAsal,
+            @Part("bank_tujuan") RequestBody bankTujuan,
+            @Part("metode") RequestBody metode,
+            @Part("nominal") RequestBody nominal,
+            @Part("tanggal") RequestBody tanggal,
+            @Part("bukti") MultipartBody.Part bukti,
+            @Part("no_order") RequestBody noOrder
+            );
 }

@@ -1,6 +1,7 @@
 package com.example.flowerapp.ui.konfirmasipembayaran;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,10 +44,15 @@ public class KonfirmasiPembayaranAdapter extends RecyclerView.Adapter<Konfirmasi
     @Override
     public void onBindViewHolder(@NonNull KonfirmasiPembayaranAdapter.ViewHolder holder, int position) {
         ListTransaksi transaksi = listTransaksi.get(position);
-        DetailTransaksi detailTransaksi = transaksi.getDetail_transaksi().get(0);
+        Log.d("KonfirmasiPembayaranAdapter", "onBindViewHolder: " + transaksi.getNominal());
+        if (listTransaksi.size() > 0 && transaksi.getDetail_transaksi() != null){
+//            DetailTransaksi detailTransaksi = transaksi.getDetail_transaksi().get(0);
+
+
+        }
 
         holder.tvHarga.setText(transaksi.getNominal());
-        holder.tvProduct.setText(detailTransaksi.getProduk());
+//            holder.tvProduct.setText(detailTransaksi.getProduk());
         holder.tvTanggal.setText(transaksi.getTanggal());
 
         Glide.with(context)

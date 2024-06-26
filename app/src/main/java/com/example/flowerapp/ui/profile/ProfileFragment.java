@@ -20,10 +20,13 @@ import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.User;
 import com.example.flowerapp.model.data.Checkout;
+import com.example.flowerapp.model.data.ListTransaksi;
 import com.example.flowerapp.model.data.Logout;
 import com.example.flowerapp.model.response.GetCheckout;
+import com.example.flowerapp.model.response.GetTransaksi;
 import com.example.flowerapp.ui.LoginActivity;
 import com.example.flowerapp.ui.cart.CartActivity;
+import com.example.flowerapp.ui.konfirmasipembayaran.KonfirmasiPembayaranActivity;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
 
@@ -78,7 +81,7 @@ public class ProfileFragment extends Fragment {
                 Intent intent = new Intent(getContext(), CartActivity.class);
                 startActivity(intent);
 
-                hideBadge();
+                hideBadgeCart();
             }
         });
         binding.btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -102,19 +105,45 @@ public class ProfileFragment extends Fragment {
                 });
             }
         });
+
+        binding.btnKonfirmasiPembayaran.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), KonfirmasiPembayaranActivity.class);
+                startActivity(intent);
+
+                hideBadgeKonfirmasiPembayaran();
+            }
+        });
     }
 
-    private void showBadge(int count){
+    private void showBadgeCart(int count){
         if (count > 0){
-            binding.badge.setText(String.valueOf(count));
-            binding.badge.setVisibility(View.VISIBLE);
+            binding.badgeCart.setText(String.valueOf(count));
+            binding.badgeCart.setVisibility(View.VISIBLE);
+            binding.btnCart.setZ(1);
+            binding.badgeCart.setZ(2);
         }else{
-            binding.badge.setVisibility(View.INVISIBLE);
+            binding.badgeCart.setVisibility(View.INVISIBLE);
         }
     }
 
-    private void hideBadge(){
-        binding.badge.setVisibility(View.INVISIBLE);
+    private void hideBadgeCart(){
+        binding.badgeCart.setVisibility(View.INVISIBLE);
+    }
+    private void showBadgeKonfirmasiPembayaran(int count){
+        if(count > 0){
+            binding.badgeKonfirmasiPembayaran.setText(String.valueOf(count));
+            binding.badgeCart.setVisibility(View.VISIBLE);
+            binding.btnKonfirmasiPembayaran.setZ(1);
+            binding.badgeCart.setZ(2);
+        }else{
+            binding.badgeKonfirmasiPembayaran.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void hideBadgeKonfirmasiPembayaran(){
+        binding.badgeKonfirmasiPembayaran.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -136,12 +165,28 @@ public class ProfileFragment extends Fragment {
                 if(response.isSuccessful() && response.body().getData().size() > 0){
                     List<Checkout> data = response.body().getData();
 
-                    showBadge(data.size());
+                    showBadgeCart(data.size());
                 }
             }
 
             @Override
             public void onFailure(Call<GetCheckout> call, Throwable t) {
+                Log.d("ProfileFragment", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void getNotifKonfirmasiPembayaran(){
+        apiService.getListTransaksi().enqueue(new Callback<GetTransaksi>() {
+            @Override
+            public void onResponse(Call<GetTransaksi> call, Response<GetTransaksi> response) {
+                List<ListTransaksi> listTransaksi = response.body().getData();
+
+                showBadgeKonfirmasiPembayaran(listTransaksi.size());
+            }
+
+            @Override
+            public void onFailure(Call<GetTransaksi> call, Throwable t) {
                 Log.d("ProfileFragment", "onFailure: " + t.getMessage());
             }
         });
