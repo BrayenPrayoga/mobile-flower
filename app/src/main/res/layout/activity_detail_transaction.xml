@@ -11,63 +11,83 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btn_konfirmasi">
+        android:layout_above="@+id/btn_konfirmasi"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/iv_product"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_margin="10dp"/>
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_barang"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="8dp"
+                android:layout_margin="10dp">
 
-            <TextView
-                android:id="@+id/tv_nama_product"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_product"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="20dp"
-                />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_nama_product"
-                android:layout_toRightOf="@id/iv_product"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                    <ImageView
+                        android:id="@+id/iv_product"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:layout_margin="10dp"/>
 
-            <TextView
-                android:id="@+id/tv_harga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tv_desc"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="10dp"
-                android:textSize="16sp"
-                android:textColor="@color/black"
-                android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/tv_nama_product"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/iv_product"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="20dp"
+                        />
 
-            <TextView
-                android:id="@+id/tv_jumlah"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/tv_harga"
-                android:textSize="14sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="2dp"/>
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_nama_product"
+                        android:layout_toRightOf="@id/iv_product"
+                        android:maxLines="2"
+                        android:ellipsize="end"
+                        android:layout_marginHorizontal="10dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"/>
+
+                    <TextView
+                        android:id="@+id/tv_harga"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_desc"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginHorizontal="10dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_jumlah"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:layout_alignParentRight="true"
+                        android:layout_below="@id/tv_harga"
+                        android:textSize="14sp"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="2dp"/>
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/input_alamat"
@@ -77,7 +97,7 @@
                 android:layout_marginBottom="10dp"
                 android:textColorHint="#FF323232"
                 app:hintTextColor="@color/black"
-                android:layout_below="@+id/iv_product">
+                android:layout_below="@+id/card_barang">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_alamat"
@@ -137,15 +157,15 @@
 
                 </LinearLayout>
 
-                <com.jaredrummler.materialspinner.MaterialSpinner
-                    android:id="@+id/spinner_rekening"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textColor="@color/black"
-                    android:text="Pilih Rekening"
-                    android:elevation="4dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:layout_marginBottom="10dp" />
+<!--                <com.jaredrummler.materialspinner.MaterialSpinner-->
+<!--                    android:id="@+id/spinner_rekening"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:text="Pilih Rekening"-->
+<!--                    android:elevation="4dp"-->
+<!--                    android:layout_marginHorizontal="10dp"-->
+<!--                    android:layout_marginBottom="10dp" />-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -167,6 +187,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_margin="10dp"
                         android:textSize="15sp"
+                        android:textColor="@color/black"
                         />
 
                     <TextView
@@ -175,6 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_subtotal_produk"
                         android:textSize="15sp"
+                        android:text="Diskon"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"/>
 
@@ -185,6 +207,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_below="@id/tv_nominal_subutotal"
                         android:textSize="15sp"
+
                         android:textColor="@color/black"
                         android:layout_margin="10dp"/>
 
@@ -195,6 +218,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:text="Total"
                         android:layout_below="@id/tv_diskon"
                         android:layout_margin="10dp"
                         />
@@ -206,6 +230,7 @@
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        android:layout_margin="10dp"
                         android:layout_below="@+id/tv_nominal_diskon"
                         android:layout_alignParentRight="true"/>
 
@@ -216,6 +241,10 @@
 
 
         </RelativeLayout>
+
+
+
+
     </ScrollView>
 
 

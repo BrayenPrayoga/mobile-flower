@@ -18,6 +18,7 @@ import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.data.DetailTransaksi;
 import com.example.flowerapp.model.data.ListTransaksi;
 import com.example.flowerapp.model.data.Produk;
+import com.example.flowerapp.ui.DetailTransactionActivity;
 import com.example.flowerapp.ui.home.ProdukAdapter;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class KonfirmasiPembayaranAdapter extends RecyclerView.Adapter<Konfirmasi
 
     private List<ListTransaksi> listTransaksi;
     private Context context;
-
+    private static final String TAG = "KonfirmasiPembayaranAdapter";
 
 
     public KonfirmasiPembayaranAdapter(List<ListTransaksi> listTransaksi, Context context) {
@@ -44,22 +45,17 @@ public class KonfirmasiPembayaranAdapter extends RecyclerView.Adapter<Konfirmasi
     @Override
     public void onBindViewHolder(@NonNull KonfirmasiPembayaranAdapter.ViewHolder holder, int position) {
         ListTransaksi transaksi = listTransaksi.get(position);
-        Log.d("KonfirmasiPembayaranAdapter", "onBindViewHolder: " + transaksi.getNominal());
+
         if (listTransaksi.size() > 0 && transaksi.getDetail_transaksi() != null){
-//            DetailTransaksi detailTransaksi = transaksi.getDetail_transaksi().get(0);
+            holder.tvKodeProduct.setText("Kode Produk: " + transaksi.getNo_order());
+            for(DetailTransaksi data: transaksi.getDetail_transaksi()){
+                holder.tvProduct.setText("Nama Product: " + data.getProduk());
+                holder.tvQty.setText("Qty: " + data.getJumlah());
+                holder.tvHarga.setText("Harga: " + data.getTotal_harga());
 
-
+            }
         }
 
-        holder.tvHarga.setText(transaksi.getNominal());
-//            holder.tvProduct.setText(detailTransaksi.getProduk());
-        holder.tvTanggal.setText(transaksi.getTanggal());
-
-        Glide.with(context)
-                .load(RClient.getBaseUrl() + transaksi.getBukti())
-                .placeholder(androidx.transition.R.drawable.abc_text_cursor_material)
-                .error(androidx.transition.R.drawable.notification_tile_bg)
-                .into(holder.ivProduct);
     }
 
     @Override
@@ -68,17 +64,16 @@ public class KonfirmasiPembayaranAdapter extends RecyclerView.Adapter<Konfirmasi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView ivProduct;
-        TextView tvProduct, tvTanggal, tvHarga;
+        TextView tvProduct, tvQty, tvHarga, tvKodeProduct;
 
         AppCompatButton btnKonfirmasi;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            ivProduct = itemView.findViewById(R.id.iv_product);
             tvProduct = itemView.findViewById(R.id.tv_nama_product);
-            tvTanggal = itemView.findViewById(R.id.tv_tanggal);
+            tvQty = itemView.findViewById(R.id.tv_qty);
             tvHarga = itemView.findViewById(R.id.tv_harga);
+            tvKodeProduct = itemView.findViewById(R.id.tv_kode_product);
             btnKonfirmasi = itemView.findViewById(R.id.btn_konfirmasi);
         }
     }

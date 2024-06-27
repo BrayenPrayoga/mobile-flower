@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.bumptech.glide.Glide;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityDetailTransactionBinding;
 import com.example.flowerapp.model.ApiService;
@@ -48,7 +49,11 @@ public class DetailTransactionActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private SharedPrefManager sharedPrefManager;
     private int totalHarga;
-    private int idBankSelected;
+    private String idKupon;
+    private float totalTransaksi;
+
+    private LottieProgressDialog lottieProgressDialog;
+    private static final String TAG = "DetailTransaksiActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +66,10 @@ public class DetailTransactionActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        lottieProgressDialog = new LottieProgressDialog(this,
+                false, null, null, null,
+                null, LottieProgressDialog.SAMPLE_6, null, null);
 
         sharedPrefManager = new SharedPrefManager(DetailTransactionActivity.this);
         String token = sharedPrefManager.getToken();
@@ -77,6 +86,7 @@ public class DetailTransactionActivity extends AppCompatActivity {
         int jumlahPembelian = data.getIntExtra("jumlah-pembelian", 0);
 
         totalHarga = Integer.parseInt(hargaProduk) * jumlahPembelian;
+        totalTransaksi = totalHarga;
 
         binding.tvNamaProduct.setText(namaProduk);
         binding.tvDesc.setText(descProduk);
@@ -90,9 +100,10 @@ public class DetailTransactionActivity extends AppCompatActivity {
                 .into(binding.ivProduct);
 
 
-        setTextWithDots(binding.tvSubtotalProduk, "Subtotal", ConvertCurrency.formatToRupiah(totalHarga));
-        setTextWithDots(binding.tvDiskon, "Diskon", ConvertCurrency.formatToRupiah(0));
-        setTextWithDots(binding.tvTotal, "Total", ConvertCurrency.formatToRupiah(totalHarga));
+        binding.tvNominalSubutotal.setText(ConvertCurrency.formatToRupiah(totalHarga));
+        binding.tvNominalDiskon.setText(ConvertCurrency.formatToRupiah(0));
+        binding.tvNominalTotal.setText(ConvertCurrency.formatToRupiah(totalHarga));
+
         binding.btnConfirmPromo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,7 +112,7 @@ public class DetailTransactionActivity extends AppCompatActivity {
             }
         });
 
-        idBankSelected = 0;
+        idKupon = "";
 
         apiService.getNorek().enqueue(new Callback<GetRekening>() {
             @Override
@@ -116,13 +127,13 @@ public class DetailTransactionActivity extends AppCompatActivity {
                     }
                 }
 
-                binding.spinnerRekening.setItems(data);
-                binding.spinnerRekening.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
-                        idBankSelected = idBank.get(position);
-                    }
-                });
+//                binding.spinnerRekening.setItems(data);
+//                binding.spinnerRekening.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(MaterialSpinner view, int position, long id, Object item) {
+//                        idBankSelected = idBank.get(position);
+//                    }
+//                });
             }
 
             @Override
@@ -134,24 +145,33 @@ public class DetailTransactionActivity extends AppCompatActivity {
         binding.btnKonfirmasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int idKupon = idBankSelected > 0 ? idBankSelected : 0;
-                List<String> paramIdProduk = new ArrayList<>();
-                paramIdProduk.add(String.valueOf(idProduk));
+                lottieProgressDialog.show();
+                if(binding.etAlamat.getText().toString().equals("")){
+                    binding.etAlamat.setError("Alamat Tidak Boleh Kosong");
+                    YoYo.with(Techniques.Tada)
+                            .duration(1000)
+                            .repeat(1)
+                            .playOn(binding.etAlamat);
+                    lottieProgressDialog.dismiss();
+                }else{
+                    Log.d(TAG, "onClick: " + binding.tvNominalTotal.getText().toString());
+                    Log.d(TAG, "onClick: " + binding.etAlamat.getText().toString());
+                    Log.d(TAG, "onClick: " + idKupon);
+                    Log.d(TAG, "onClick: " + String.valueOf(idProduk));
+                    Log.d(TAG, "onClick: " + String.valueOf(jumlahPembelian));
+                    Log.d(TAG, "onClick: " + binding.tvNominalTotal.getText().toString());
+                    submitTransaksi(
+                            String.valueOf(totalTransaksi),
+                            binding.etAlamat.getText().toString(),
+                            idKupon,
+                            String.valueOf(idProduk),
+                            String.valueOf(jumlahPembelian),
+                            String.valueOf(totalHarga)
+                    );
 
-                List<String> paramJumlah = new ArrayList<>();
-                paramJumlah.add(String.valueOf(jumlahPembelian));
+                }
 
-                List<String> paramTotalHarga = new ArrayList<>();
-                paramTotalHarga.add(hargaProduk);
 
-                submitTransaksi(
-                        binding.tvTotal.getText().toString(),
-                        binding.etAlamat.getText().toString(),
-                        String.valueOf(idKupon),
-                        String.valueOf(idProduk),
-                        String.valueOf(jumlahPembelian),
-                        hargaProduk
-                );
 
             }
         });
@@ -163,9 +183,11 @@ public class DetailTransactionActivity extends AppCompatActivity {
             public void onResponse(Call<GetKupon> call, Response<GetKupon> response) {
                 Kupon kupon = response.body().getData();
                 if (response.isSuccessful() && response.body().getData() != null){
-                    setTextWithDots(binding.tvDiskon, "Diskon", "Rp." + kupon.getKredit());
+                    idKupon = String.valueOf(kupon.getId());
+                    binding.tvNominalDiskon.setText("Rp. " + kupon.getKredit());
                     float total = totalHarga - Float.parseFloat(kupon.getKredit());
-                    setTextWithDots(binding.tvTotal, "Total", ConvertCurrency.formatToRupiah((int) total));
+                    totalTransaksi = total;
+                    binding.tvNominalTotal.setText(ConvertCurrency.formatToRupiah((int) total));
                 }else{
                     binding.etPromo.setError("Kode Tidak Ditemukan");
                     YoYo.with(Techniques.Tada)
@@ -182,21 +204,6 @@ public class DetailTransactionActivity extends AppCompatActivity {
         });
     }
 
-    private void setTextWithDots(TextView textView, String label, String value) {
-        int totalLength = 100; // Total length including dots
-
-        String text = label + " " + value;
-        int numDots = totalLength - text.length();
-
-        StringBuilder dotBuilder = new StringBuilder();
-        for (int i = 0; i < numDots; i++) {
-            dotBuilder.append(".");
-        }
-
-        String finalText = label + " " + dotBuilder.toString() + " " + value;
-        textView.setText(finalText);
-    }
-
     private void submitTransaksi(
             String totalHargaTransaksi,
             String alamat,
@@ -208,68 +215,20 @@ public class DetailTransactionActivity extends AppCompatActivity {
         apiService.buatTransaksi(totalHargaTransaksi, alamat, idKupon, idProduk, jumlah, totalHarga).enqueue(new Callback<PostTransaksi>() {
             @Override
             public void onResponse(Call<PostTransaksi> call, Response<PostTransaksi> response) {
-                if (response.isSuccessful() && response.body().getData() != null){
-                    Transaksi data = response.body().getData();
+                Log.d(TAG, "onResponse: " + response.isSuccessful());
+                Log.d(TAG, "onResponse: " + response.body().getData().getNo_order());
+                Toastie.topSuccess(DetailTransactionActivity.this,"Pesanan Berhasil dikonfirmasi silahkan lakukan pembayaram.", Toast.LENGTH_SHORT).show();
+                finish();
 
-                    Transaksi transaksi = new Transaksi(
-                            data.getNo_order(),
-                            data.getId_users(),
-                            data.getStatus_transaksi(),
-                            data.getTanggal_transaksi(),
-                            data.getTotal_harga_transaksi(),
-                            data.getId_kupon(),
-                            data.getCreated_at(),
-                            data.getUpdated_at(),
-                            data.getId(),
-                            data.getDetail()
-                    );
-//                    transaksi.setId_users(data.getId_users());
-//                    transaksi.setNo_order(data.getNo_order());
-//                    transaksi.setStatus_transaksi(data.getStatus_transaksi());
-//                    transaksi.setTanggal_transaksi(data.getTanggal_transaksi());
-//                    transaksi.setTotal_harga_transaksi(data.getTotal_harga_transaksi());
-//                    transaksi.setId_kupon(data.getId_kupon());
-//                    transaksi.setCreated_at(data.getCreated_at());
-//                    transaksi.setUpdated_at(data.getUpdated_at());
-//                    transaksi.setId(data.getId());
-//                    transaksi.setDetail(data.getDetail());
-
-                    Toastie.topSuccess(DetailTransactionActivity.this,"Pesanan Berhasil dikonfirmasi silahkan lakukan pembayaram.", Toast.LENGTH_SHORT).show();
-                    finish();
-                }
+                lottieProgressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<PostTransaksi> call, Throwable t) {
+                Toastie.topError(DetailTransactionActivity.this, "Cek Koneksi Kembali", Toast.LENGTH_SHORT).show();
                 Log.d("DetailTransactionActivity", "onFailure: " + t.getMessage());
-                t.printStackTrace();
+                lottieProgressDialog.dismiss();
             }
         });
-
-//        RequestTransaksi request = new RequestTransaksi();
-//
-//        request.setTotal_harga_transaksi("100000");
-//        request.setId_kupon("KU12345");
-//        request.setId_produk("1");
-//        request.setJumlah("1");
-//        request.setTotal_harga("5000");
-
-//        apiService.testTransaksi(request).enqueue(new Callback<PostTransaksi>() {
-//            @Override
-//            public void onResponse(Call<PostTransaksi> call, Response<PostTransaksi> response) {
-//
-//                Log.d("DetailTransactionActivity", "onResponse: " + response.body());
-//                Log.d("DetailTransactionActivity", "onResponse: " + response.errorBody().toString());
-//                Log.d("DetailTransactionActivity", "onResponse: " + response.raw());
-//                Log.d("DetailTransactionActivity", "onResponse: " + response.isSuccessful());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<PostTransaksi> call, Throwable t) {
-//                Log.d("DetailTransactionActivity", "onFailure: "+ t.getMessage());
-//
-//            }
-//        });
-
     }
 }

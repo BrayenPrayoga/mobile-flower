@@ -16,8 +16,12 @@ import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityCartBinding;
 import com.example.flowerapp.model.ApiService;
 import com.example.flowerapp.model.RClient;
+import com.example.flowerapp.model.data.Checkout;
 import com.example.flowerapp.model.response.GetCheckout;
 import com.example.flowerapp.util.SharedPrefManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +33,8 @@ public class CartActivity extends AppCompatActivity {
     private ApiService apiService;
     private SharedPrefManager prefManager;
     private Retrofit retrofit;
+    private List<Checkout> listCheckout;
+    CartAdapter cartAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,12 @@ public class CartActivity extends AppCompatActivity {
         retrofit = RClient.getRetrofitInstanceWithAuth(token);
         apiService = retrofit.create(ApiService.class);
 
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false);
+        binding.rvItemCart.setLayoutManager(linearLayoutManager);
+        listCheckout = new ArrayList<>();
+        cartAdapter = new CartAdapter(CartActivity.this, listCheckout);
+        binding.rvItemCart.setAdapter(cartAdapter);
+
         getListCart();
         binding.ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +74,9 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<GetCheckout> call, Response<GetCheckout> response) {
                 if(response.isSuccessful() && response.body().getData().size() > 0){
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(CartActivity.this, LinearLayoutManager.VERTICAL, false);
-                    binding.rvItemCart.setLayoutManager(linearLayoutManager);
-                    CartAdapter cartAdapter = new CartAdapter(CartActivity.this, response.body().getData());
-                    binding.rvItemCart.setAdapter(cartAdapter);
+                    listCheckout.clear();
+                    listCheckout.addAll(response.body().getData());
+                    cartAdapter.notifyDataSetChanged();
                 }
 
             }
@@ -82,4 +93,11 @@ public class CartActivity extends AppCompatActivity {
         super.onResume();
         getListCart();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+
 }

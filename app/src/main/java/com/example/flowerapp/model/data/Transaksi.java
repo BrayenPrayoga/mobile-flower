@@ -8,33 +8,18 @@ import java.util.List;
 
 public class Transaksi {
 
-    private String no_order;
     private int id_users;
+    private String no_order;
 
     private int status_transaksi;
     private String tanggal_transaksi;
     private String total_harga_transaksi;
     private String id_kupon;
+    private String alamat;
     private String created_at;
     private String updated_at;
     private int id;
-    private List<DetailProduk> detail;
-
-    public Transaksi() {
-    }
-
-    public Transaksi(@NonNull String no_order, int id_users, int status_transaksi, String tanggal_transaksi, String total_harga_transaksi, String id_kupon, String created_at, String updated_at, int id, List<DetailProduk> detail) {
-        this.no_order = no_order;
-        this.id_users = id_users;
-        this.status_transaksi = status_transaksi;
-        this.tanggal_transaksi = tanggal_transaksi;
-        this.total_harga_transaksi = total_harga_transaksi;
-        this.id_kupon = id_kupon;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
-        this.id = id;
-        this.detail = detail;
-    }
+//    private List<DetailProduk> detail;
 
     public int getId_users() {
         return id_users;
@@ -84,6 +69,14 @@ public class Transaksi {
         this.id_kupon = id_kupon;
     }
 
+    public String getAlamat() {
+        return alamat;
+    }
+
+    public void setAlamat(String alamat) {
+        this.alamat = alamat;
+    }
+
     public String getCreated_at() {
         return created_at;
     }
@@ -108,11 +101,11 @@ public class Transaksi {
         this.id = id;
     }
 
-    public List<DetailProduk> getDetail() {
-        return detail;
-    }
-
-    public void setDetail(List<DetailProduk> detail) {
-        this.detail = detail;
-    }
+//    public List<DetailProduk> getDetail() {
+//        return detail;
+//    }
+//
+//    public void setDetail(List<DetailProduk> detail) {
+//        this.detail = detail;
+//    }
 }
