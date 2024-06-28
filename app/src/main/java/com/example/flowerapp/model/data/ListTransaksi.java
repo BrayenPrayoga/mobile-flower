@@ -11,6 +11,8 @@ public class ListTransaksi {
     private String nominal;
     private String tanggal;
     private String bukti;
+    private int id_kupon;
+    private Kupon kupon;
     private List<DetailTransaksi> detail_transaksi;
 
     public int getId() {
@@ -75,6 +77,22 @@ public class ListTransaksi {
 
     public void setBukti(String bukti) {
         this.bukti = bukti;
+    }
+
+    public int getId_kupon() {
+        return id_kupon;
+    }
+
+    public void setId_kupon(int id_kupon) {
+        this.id_kupon = id_kupon;
+    }
+
+    public Kupon getKupon() {
+        return kupon;
+    }
+
+    public void setKupon(Kupon kupon) {
+        this.kupon = kupon;
     }
 
     public List<DetailTransaksi> getDetail_transaksi() {

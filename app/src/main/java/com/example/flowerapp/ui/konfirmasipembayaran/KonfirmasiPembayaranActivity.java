@@ -48,7 +48,7 @@ public class KonfirmasiPembayaranActivity extends AppCompatActivity {
         retrofit = RClient.getRetrofitInstanceWithAuth(token);
         apiService = retrofit.create(ApiService.class);
 
-        apiService.getListTransaksi().enqueue(new Callback<GetTransaksi>() {
+        apiService.getListTransaksi("0").enqueue(new Callback<GetTransaksi>() {
             @Override
             public void onResponse(Call<GetTransaksi> call, Response<GetTransaksi> response) {
                 if (response.isSuccessful() && response.body().getData().size() > 0){

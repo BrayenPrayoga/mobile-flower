@@ -3,6 +3,7 @@ package com.example.flowerapp.model.data;
 public class DetailTransaksi {
     private int id_produk;
     private String produk;
+    private String gambar;
     private int jumlah;
     private String total_harga;
 
@@ -20,6 +21,14 @@ public class DetailTransaksi {
 
     public void setProduk(String produk) {
         this.produk = produk;
+    }
+
+    public String getGambar() {
+        return gambar;
+    }
+
+    public void setGambar(String gambar) {
+        this.gambar = gambar;
     }
 
     public int getJumlah() {

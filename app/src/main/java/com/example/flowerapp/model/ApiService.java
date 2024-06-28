@@ -92,26 +92,21 @@ public interface ApiService {
             @Field("total_harga[]") String totalHarga
     );
 
-    @POST("transaksi/store")
-    Call<PostTransaksi> testTransaksi(
-            @Body RequestTransaksi reqeust
-    );
-
     @GET("transaksi/get-transaksi")
-    Call<GetTransaksi> getListTransaksi();
+    Call<GetTransaksi> getListTransaksi(@Query("status") String status);
 
     @GET("konfirmasi-pembayaran/get-konfirmasi-pembarayan")
     Call<GetKonfirmasiPembayaran> getKonfirmasiPembayaran();
 
     @Multipart
-    @POST("konfirmasi-pembayaran/store")
+    @POST("konfirmasi-pembarayan/store")
     Call<PostKonfirmasiPembayaran> postKonfirmasiPembayaran(
             @Part("bank_asal") RequestBody bankAsal,
             @Part("bank_tujuan") RequestBody bankTujuan,
             @Part("metode") RequestBody metode,
             @Part("nominal") RequestBody nominal,
             @Part("tanggal") RequestBody tanggal,
-            @Part("bukti") MultipartBody.Part bukti,
+            @Part MultipartBody.Part bukti,
             @Part("no_order") RequestBody noOrder
             );
 }

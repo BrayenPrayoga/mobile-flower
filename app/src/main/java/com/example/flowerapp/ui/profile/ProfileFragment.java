@@ -27,6 +27,7 @@ import com.example.flowerapp.model.response.GetTransaksi;
 import com.example.flowerapp.ui.LoginActivity;
 import com.example.flowerapp.ui.cart.CartActivity;
 import com.example.flowerapp.ui.konfirmasipembayaran.KonfirmasiPembayaranActivity;
+import com.example.flowerapp.ui.riwayatbelanja.RiwayatBelanjaActivity;
 import com.example.flowerapp.util.SharedPrefManager;
 import com.mrntlu.toastie.Toastie;
 
@@ -65,9 +66,19 @@ public class ProfileFragment extends Fragment {
 
         apiService = RClient.getRetrofitInstanceWithAuth(token).create(ApiService.class);
 
+        getNotifKonfirmasiPembayaran();
         getNotifCart();
+
         binding.tvNama.setText(user.getName());
         updateProfileDialog = new UpdateProfileDialog(getContext());
+
+        binding.btnRiwayatBelanja.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), RiwayatBelanjaActivity.class);
+                startActivity(intent);
+            }
+        });
         binding.btnUpdateProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,9 +145,9 @@ public class ProfileFragment extends Fragment {
     private void showBadgeKonfirmasiPembayaran(int count){
         if(count > 0){
             binding.badgeKonfirmasiPembayaran.setText(String.valueOf(count));
-            binding.badgeCart.setVisibility(View.VISIBLE);
+            binding.badgeKonfirmasiPembayaran.setVisibility(View.VISIBLE);
             binding.btnKonfirmasiPembayaran.setZ(1);
-            binding.badgeCart.setZ(2);
+            binding.badgeKonfirmasiPembayaran.setZ(2);
         }else{
             binding.badgeKonfirmasiPembayaran.setVisibility(View.INVISIBLE);
         }
@@ -156,6 +167,7 @@ public class ProfileFragment extends Fragment {
     public void onResume() {
         super.onResume();
         getNotifCart();
+        getNotifKonfirmasiPembayaran();
     }
 
     public void getNotifCart(){
@@ -177,10 +189,11 @@ public class ProfileFragment extends Fragment {
     }
 
     public void getNotifKonfirmasiPembayaran(){
-        apiService.getListTransaksi().enqueue(new Callback<GetTransaksi>() {
+        apiService.getListTransaksi("0").enqueue(new Callback<GetTransaksi>() {
             @Override
             public void onResponse(Call<GetTransaksi> call, Response<GetTransaksi> response) {
                 List<ListTransaksi> listTransaksi = response.body().getData();
+                Log.d("ProfileFragment", "listKonfirmasiPembayaran: " + listTransaksi.size());
 
                 showBadgeKonfirmasiPembayaran(listTransaksi.size());
             }
