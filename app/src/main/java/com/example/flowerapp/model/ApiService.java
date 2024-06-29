@@ -108,5 +108,8 @@ public interface ApiService {
             @Part("tanggal") RequestBody tanggal,
             @Part MultipartBody.Part bukti,
             @Part("no_order") RequestBody noOrder
-            );
+    );
+
+    @GET("forget-password")
+    Call<Boolean> forgotPassword(@Query("email") String email);
 }

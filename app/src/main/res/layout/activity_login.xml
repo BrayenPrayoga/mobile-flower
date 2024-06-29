@@ -90,7 +90,7 @@
         android:layout_marginTop="15dp"
         android:text="Lupa Kata Sandi?"
         android:textSize="14sp"
-        android:textColor="@color/black"
+        android:textColor="@color/primary"
         />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -126,7 +126,7 @@
         android:layout_marginLeft="10dp"
         android:text="Daftar"
         android:textSize="18sp"
-        android:textColor="#2199a0"/>
+        android:textColor="@color/primary"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
