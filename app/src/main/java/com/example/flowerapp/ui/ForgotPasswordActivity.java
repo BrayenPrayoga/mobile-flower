@@ -62,23 +62,27 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     public void resetPassword(String email){
-        apiService.forgotPassword(email).enqueue(new Callback<Boolean>() {
+        apiService.forgotPassword(email).enqueue(new Callback<Integer>() {
             @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if (response.body() && response.isSuccessful()){
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                if (response.body() == 1 && response.isSuccessful()){
                     Toastie.topSuccess(ForgotPasswordActivity.this, "Reset Password Berhasil, Cek Email Anda", Toast.LENGTH_SHORT).show();
                     finish();
+                    lottieProgressDialog.dismiss();
                 }else{
                     Toastie.topWarning(ForgotPasswordActivity.this, "Email Tidak Ditemukan", Toast.LENGTH_SHORT).show();
+                    lottieProgressDialog.dismiss();
                 }
             }
 
             @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Toastie.topWarning(ForgotPasswordActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<Integer> call, Throwable t) {
+                Toastie.topWarning(ForgotPasswordActivity.this, "Email Tidak Ditemukan", Toast.LENGTH_SHORT).show();
                 Log.d("ForgotPasswordActivity", "onFailure: " + t.getMessage());
+                lottieProgressDialog.dismiss();
             }
         });
+
     }
 
     @Override

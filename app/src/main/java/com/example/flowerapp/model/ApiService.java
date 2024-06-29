@@ -111,5 +111,5 @@ public interface ApiService {
     );
 
     @GET("forget-password")
-    Call<Boolean> forgotPassword(@Query("email") String email);
+    Call<Integer> forgotPassword(@Query("email") String email);
 }
