@@ -1,6 +1,7 @@
 package com.example.flowerapp.ui.explore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.flowerapp.R;
 import com.example.flowerapp.model.RClient;
 import com.example.flowerapp.model.data.Produk;
+import com.example.flowerapp.ui.DetailProductActivity;
 import com.example.flowerapp.util.ConvertCurrency;
 
 import java.util.ArrayList;
@@ -54,6 +57,20 @@ public class ExploreProdukAdapter extends RecyclerView.Adapter<ExploreProdukAdap
                 .placeholder(androidx.transition.R.drawable.abc_text_cursor_material)
                 .error(androidx.transition.R.drawable.notification_tile_bg)
                 .into(holder.ivProduk);
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailProductActivity.class);
+                intent.putExtra("id-produk", data.getId_produk());
+                intent.putExtra("nama-produk", data.getProduk());
+                intent.putExtra("deskripsi-produk", data.getDeskripsi());
+                intent.putExtra("stok-produk", data.getStok());
+                intent.putExtra("gambar-produk", data.getGambar());
+                intent.putExtra("harga-produk", data.getHarga());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -99,12 +116,14 @@ public class ExploreProdukAdapter extends RecyclerView.Adapter<ExploreProdukAdap
     public static class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvTitle, tvHarga;
         ImageView ivProduk;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_nama_product);
             tvHarga = itemView.findViewById(R.id.tv_price);
             ivProduk = itemView.findViewById(R.id.iv_product);
+            cardView = itemView.findViewById(R.id.cv_product);
         }
     }
 }

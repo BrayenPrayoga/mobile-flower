@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //logic nembak api
     public void login(String email, String password){
         FragmentManager fragmentManager = getSupportFragmentManager();
 //        loadingDialog.show(fragmentManager, "loading");
