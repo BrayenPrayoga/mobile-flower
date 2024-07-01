@@ -71,6 +71,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
 
     }
 
+    public void fetchData(List<Checkout> dataBaru){
+        listCheckout.clear();
+        listCheckout.addAll(dataBaru);
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return listCheckout.size();

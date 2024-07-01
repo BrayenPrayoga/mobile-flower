@@ -113,6 +113,6 @@
         android:layout_marginTop="15dp"
         android:textSize="18sp"
         android:text="Login"
-        android:textColor="#2199a0"/>
+        android:textColor="@color/primary"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

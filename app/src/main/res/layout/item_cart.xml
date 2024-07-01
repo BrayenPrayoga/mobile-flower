@@ -66,7 +66,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="5dp"
-                android:text="Bayar"/>
+                android:text="Checkout"/>
 
         </RelativeLayout>
         

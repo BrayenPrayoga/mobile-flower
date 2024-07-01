@@ -86,6 +86,13 @@ public class RiwayatBelanjaAdapter extends RecyclerView.Adapter<RiwayatBelanjaAd
 
     }
 
+    public void fetchData(List<ListTransaksi> dataBaru){
+        listTransaksi.clear();
+        listTransaksi.addAll(dataBaru);
+
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return listTransaksi.size();

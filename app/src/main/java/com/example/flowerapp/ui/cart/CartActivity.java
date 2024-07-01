@@ -12,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.devhoony.lottieproegressdialog.LottieProgressDialog;
 import com.example.flowerapp.R;
 import com.example.flowerapp.databinding.ActivityCartBinding;
 import com.example.flowerapp.model.ApiService;
@@ -35,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private List<Checkout> listCheckout;
     CartAdapter cartAdapter;
+    private LottieProgressDialog lottieProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,9 @@ public class CartActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        lottieProgressDialog = new LottieProgressDialog(this,
+                false, null, null, null,
+                null, LottieProgressDialog.SAMPLE_6, null, null);
 
         prefManager = new SharedPrefManager(CartActivity.this);
         String token = prefManager.getToken();
@@ -70,20 +75,20 @@ public class CartActivity extends AppCompatActivity {
     }
 
     public void getListCart(){
+        lottieProgressDialog.show();
         apiService.listCart().enqueue(new Callback<GetCheckout>() {
             @Override
             public void onResponse(Call<GetCheckout> call, Response<GetCheckout> response) {
-                if(response.isSuccessful() && response.body().getData().size() > 0){
-                    listCheckout.clear();
-                    listCheckout.addAll(response.body().getData());
-                    cartAdapter.notifyDataSetChanged();
+                if(response.isSuccessful()){
+                    cartAdapter.fetchData(response.body().getData());
                 }
-
+                lottieProgressDialog.dismiss();
             }
 
             @Override
             public void onFailure(Call<GetCheckout> call, Throwable t) {
                 Log.d("CartActivity", "onFailure: " + t.getMessage());
+                lottieProgressDialog.dismiss();
             }
         });
     }
@@ -91,6 +96,7 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Log.d("CartActivity", "onResume: OnResume Calld" );
         getListCart();
     }
 
