@@ -1,6 +1,7 @@
 package com.example.flowerapp.ui;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -93,7 +94,10 @@ public class DetailProductActivity extends AppCompatActivity {
             }
         });
 
-        binding.basketQty.setMaxQuantity(stok);
+        if(stok != 0 && stok > 0){
+            binding.basketQty.setMaxQuantity(stok);
+        }
+
         binding.basketQty.setBasketLayoutListener(new BasketLayoutViewListener() {
             @Override
             public void onClickDecreaseQuantity(int i) {
@@ -110,7 +114,13 @@ public class DetailProductActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        binding.basketQty.setBasketQuantity(i, State.None);
+                        if(stok != 0 && stok > 0){
+                            binding.basketQty.setBasketQuantity(i, State.None);
+                        }else{
+                            binding.basketQty.setBasketQuantity(0, State.None);
+                            Toastie.topWarning(DetailProductActivity.this, "Stok Kosong", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
                 }, 500);
             }
