@@ -123,8 +123,10 @@ public class ExploreFragment extends Fragment implements MaterialSearchBar.OnSea
             ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (result != null && !result.isEmpty()) {
                 String voiceInput = result.get(0);
-                searchBar.setText(voiceInput);
-                if (exploreProdukAdapter != null) {
+                Log.d(TAG, "voice: " + voiceInput);
+                Log.d(TAG, "searchBar: " + searchBar);
+                if (exploreProdukAdapter != null && voiceInput != null) {
+//                    searchBar.getSearchEditText().setText(voiceInput);
                     exploreProdukAdapter.getFilter().filter(voiceInput);
                 }
             }
