@@ -39,10 +39,17 @@ public class UpdateProfileDialog extends DialogFragment {
     private SharedPrefManager prefManager;
     Context context;
 
+    private OnProfileUpdatedListener listener;
     private static final String TAG = "UpdateProfileDialog";
 
     public UpdateProfileDialog(Context context) {
         this.context = context;
+    }
+
+
+
+    public void setOnProfileUpdatedListener(OnProfileUpdatedListener listener) {
+        this.listener = listener;
     }
 
     @Nullable
@@ -75,6 +82,7 @@ public class UpdateProfileDialog extends DialogFragment {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clearForm();
                 dismiss();
             }
         });
@@ -97,6 +105,8 @@ public class UpdateProfileDialog extends DialogFragment {
                                 Log.d(TAG, "onResponse: " + response.body());
                                 lottieProgressDialog.dismiss();
                                 Toastie.topSuccess(getContext(), "Data Berhasil diupdate", Toast.LENGTH_SHORT).show();
+                                listener.onProfileUpdated(etName.getText().toString());
+                                clearForm();
                                 dismiss();
                             }
 
@@ -113,6 +123,8 @@ public class UpdateProfileDialog extends DialogFragment {
                             @Override
                             public void onResponse(Call<UpdateUser> call, Response<UpdateUser> response) {
                                 lottieProgressDialog.dismiss();
+                                listener.onProfileUpdated(etName.getText().toString());
+                                clearForm();
                                 Toastie.topSuccess(getContext(), "Data Berhasil diupdate", Toast.LENGTH_SHORT).show();
                                 dismiss();
                             }
@@ -130,6 +142,12 @@ public class UpdateProfileDialog extends DialogFragment {
             }
         });
         
+    }
+
+    private void clearForm(){
+        etName.setText("");
+        etEmail.setText("");
+        etPassword.setText("");
     }
 
     private int validate(){
@@ -161,5 +179,9 @@ public class UpdateProfileDialog extends DialogFragment {
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         }
+    }
+
+    public interface OnProfileUpdatedListener {
+        void onProfileUpdated(String newData);
     }
 }

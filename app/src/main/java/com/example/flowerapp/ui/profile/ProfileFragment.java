@@ -38,7 +38,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements UpdateProfileDialog.OnProfileUpdatedListener {
 
     private FragmentProfilesBinding binding;
 
@@ -71,6 +71,7 @@ public class ProfileFragment extends Fragment {
 
         binding.tvNama.setText(user.getName());
         updateProfileDialog = new UpdateProfileDialog(getContext());
+        updateProfileDialog.setOnProfileUpdatedListener(this);
 
         binding.btnRiwayatBelanja.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,5 +204,10 @@ public class ProfileFragment extends Fragment {
                 Log.d("ProfileFragment", "onFailure: " + t.getMessage());
             }
         });
+    }
+
+    @Override
+    public void onProfileUpdated(String newData) {
+        binding.tvNama.setText(newData);
     }
 }

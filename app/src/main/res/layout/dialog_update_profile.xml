@@ -117,6 +117,7 @@
             android:layout_height="wrap_content"
             android:text="Jika tidak ingin mengganti password, kosongkan saja"
             android:textSize="12sp"
+            android:textColor="@color/colorAccent"
             android:layout_alignLeft="@+id/input_password"
             android:layout_below="@+id/input_password"/>
 
